@@ -1,0 +1,10 @@
+body {
+    background: #144766
+}
+
+#score_board {
+	text-align: center;
+	color: white;
+	font-size: 3vw;
+}
+
