@@ -3,6 +3,11 @@ import { MorseGame } from "./morsegame";
 import { CallSigns } from "./callsigns";
 
 export class Letters extends MorseGame {
+	private letters:number;
+        constructor(id: string, name: string, letters:number) {
+		super(id,name);
+		this.letters = letters;
+        }
 	next() {
 		if(this.done()) {
 			return;
@@ -10,19 +15,10 @@ export class Letters extends MorseGame {
 		super.next();
 		let s:string = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		let l:string[] = s.split("");
-		this._current = l[Math.floor((Math.random() * s.length))];
-	}
-}
-
-export class TwoLetters extends MorseGame {
-	next() {
-		if(this.done()) {
-			return;
+		this._current = "";
+		for(let i=0;i<this.letters;i++) {
+			this._current += l[Math.floor((Math.random() * s.length))];
 		}
-		super.next();
-		let s:string = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		let l:string[] = s.split("");
-		this._current = l[Math.floor((Math.random() * s.length))] + l[Math.floor((Math.random() * s.length))];
 	}
 }
 
@@ -45,8 +41,11 @@ export class Koch extends MorseGame {
 
 export class Game {
 	games :MorseGame[] = [
-		new Letters('letters','All Letters'),
-		new TwoLetters('twoLetters','Two Letters'),
+		new Letters('letters','All Letters',1),
+		new Letters('twoLetters','Two Letters',2),
+		new Letters('threeLetters','Three Letters',3),
+		new Letters('fourLetters','Four Letters',4),
+		new Letters('fiveLetters','Five Letters',5),
 		new CallSigns('callSigns','Random Callsigns'),
 		new Koch('kosh1' ,'Koch Lesson 1 (KM)',1),
 		new Koch('kosh2' ,'Koch Lesson 2 (U)',2),
