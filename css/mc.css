@@ -8,3 +8,33 @@ body {
 	font-size: 3vw;
 }
 
+#head {
+	text-align: center;
+	color: white;
+	font-size: 3vw;
+}
+
+#games {
+	text-align: center;
+	color: white;
+	font-size: 3vw;
+}
+
+a:link {
+    color: white;
+}
+
+/* visited link */
+a:visited {
+    color: white;
+}
+
+/* mouse over link */
+a:hover {
+    color: lightblue;
+}
+
+/* selected link */
+a:active {
+    color: blue;
+}
