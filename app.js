@@ -2,6 +2,24 @@ var repeat_time = 3000;
 var start_time = 3000;
 var next_time = 1000;
 
+function get_game(game) {
+	let hash=window.location.href;
+	if ( hash.indexOf("?") > -1 ) {
+		let cfg=hash.substr(hash.indexOf("?")+1).split("/");
+		for (i = 0; i < game.games.length; i++) {
+			if(game.games[i].id == cfg[0]) {
+				if(cfg[1] !== undefined) {
+					game.games[i].set_count(cfg[1]);
+				}
+				return game.games[i];
+			}
+		}
+	} else {
+		alert("No game :-(");
+	}
+	return;
+}
+
 function update_score_board(game) {
 	$("#cnt").html(game.count());
 	$("#score").html(game.score().toFixed(2));
@@ -30,7 +48,7 @@ $(function() {
         var morse = new MorsePlayer.MorsePlayer(ctx,550,20,10);
         var kbd = new Keyboard.Keyboard('#keyboard');
 	var morsegame = new MorseGame.Game();
-	var game = morsegame.games[0];
+	var game = get_game(morsegame);
 	document.addEventListener("visibilitychange", function() {
 		if(document.visibilityState == 'hidden') {
 			clearTimeout(play_timer);
