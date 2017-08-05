@@ -2,13 +2,17 @@
 $(function() {
 	let game = new MorseGame.Game();
 	let html = "";
-	let gamelength = [10,20,50,100,250];
 	for (let i = 0; i < game.games.length; i++) {
-		html += game.games[i].name + " ";
-		for (let j = 0; j < gamelength.length; j++) {
-			html += '<a href="play.html?' + game.games[i].id + '/' + gamelength[j] +'">[' + gamelength[j] + ']</a> ';
-		}
-		html += "<br>\n";
+		html += '<a class="game" href="play.html?' + game.games[i].id + '">' + 
+		game.games[i].name+'</a><br>\n';
 	}
 	$("#games").html(html);
+	$("body").on('click','a.game', function() {
+		document.location = $(this).attr("href")
+		+ "/" + $("select[name=count]").val()
+		+ "/" + $("select[name=pitch]").val()
+		+ "/" + $("select[name=wpm]").val()
+		+ "/" + $("select[name=fwpm]").val();
+		return false;
+	});
 });

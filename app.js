@@ -11,7 +11,11 @@ function get_game(game) {
 				if(cfg[1] !== undefined) {
 					game.games[i].set_count(cfg[1]);
 				}
-				return game.games[i];
+				return { "game" : game.games[i], "count": cfg[1],
+					"pitch": cfg[2],
+					"wpm": cfg[3],
+					"fwpm": cfg[4] 
+				};
 			}
 		}
 	} else {
@@ -49,10 +53,14 @@ function play(morse,game) {
 $(function() {
         window.AudioContext = window.AudioContext || window.webkitAudioContext;
         var ctx = new AudioContext();
-        var morse = new MorsePlayer.MorsePlayer(ctx,550,20,10);
-        var kbd = new Keyboard.Keyboard('#keyboard');
 	var morsegame = new MorseGame.Game();
-	var game = get_game(morsegame);
+	var cfg = get_game(morsegame);
+	if(cfg === undefined) {
+		return;
+	}
+	var game = cfg.game;
+        var morse = new MorsePlayer.MorsePlayer(ctx,cfg.pitch,cfg.wpm,cfg.fwpm);
+        var kbd = new Keyboard.Keyboard('#keyboard');
 	document.addEventListener("visibilitychange", function() {
 		if(document.visibilityState == 'hidden') {
 			clearTimeout(play_timer);
