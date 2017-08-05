@@ -67,6 +67,7 @@ $(function() {
 		if(game.done()) {
 			return;
 		}
+		clearTimeout(play_timer);
 		let correct = game.event(key);
 		if(correct) {
 			$(obj).animate({ backgroundColor: "green" }, 250, function() {
