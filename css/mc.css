@@ -20,6 +20,12 @@ body {
 	font-size: 3vw;
 }
 
+#about_body {
+	text-align: center;
+	color: white;
+	font-size: 1vw;
+}
+
 a:link {
     color: white;
 }

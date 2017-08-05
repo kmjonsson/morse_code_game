@@ -41,12 +41,6 @@ export class Koch extends MorseGame {
 
 export class Game {
 	games :MorseGame[] = [
-		new Letters('letters','All Letters',1),
-		new Letters('twoLetters','Two Letters',2),
-		new Letters('threeLetters','Three Letters',3),
-		new Letters('fourLetters','Four Letters',4),
-		new Letters('fiveLetters','Five Letters',5),
-		new CallSigns('callSigns','Random Callsigns'),
 		new Koch('kosh1' ,'Koch Lesson 1 (KM)',1),
 		new Koch('kosh2' ,'Koch Lesson 2 (U)',2),
 		new Koch('kosh3' ,'Koch Lesson 3 (R)',3),
@@ -87,6 +81,12 @@ export class Game {
 		new Koch('kosh38','Koch Lesson 38 (6)',38),
 		new Koch('kosh39','Koch Lesson 39 (0)',39),
 		new Koch('kosh40','Koch Lesson 40 (X)',40),
+		new Letters('letters','All Letters',1),
+		new Letters('twoLetters','Two Letters',2),
+		new Letters('threeLetters','Three Letters',3),
+		new Letters('fourLetters','Four Letters',4),
+		new Letters('fiveLetters','Five Letters',5),
+		new CallSigns('callSigns','Random Callsigns'),
 	];
 }
 
