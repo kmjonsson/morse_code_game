@@ -9,7 +9,6 @@ export abstract class MorseGame {
 	protected _count: number = 10;
 	constructor(public id: string, public name: string) {
 		this.reset();
-		this.next();
 	}
 	set_count(count:number) {
 		this._count = count;

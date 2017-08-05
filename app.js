@@ -25,7 +25,11 @@ function update_score_board(game) {
 	$("#score").html(game.score().toFixed(2));
 	$("#correct").html(game.correct());
 	$("#current").html(game.current());
-	$("#left").html(game.count()-game.at()+1);
+	if(!game.done()) {
+		$("#left").html("" + (game.count()-game.at()+1) + " left, ") ;
+	} else {
+		$("#left").html("");
+	}
 }
 
 var play_timer;
@@ -80,16 +84,16 @@ $(function() {
 		}
 		if(game.goto_next()) {
 			clearTimeout(play_timer);
-			update_score_board(game);
 			game.next();
+			update_score_board(game);
 			if(!game.done()) {
 				set_time = true;
 				play_timer = setTimeout(function() {
 					play(morse,game);
 				}, next_time);
 			} else {
-				alert("Percent: " + game.correct()*100/game.count()
-					+ "\nScore: " + game.score().toFixed(2));
+				alert("Percent: " + (game.correct()*100/game.count()).toFixed(1)
+					+ "%\nScore: " + game.score().toFixed(2) + "p");
 				game.reset();
 				game.next();
 				set_time = true;
@@ -101,6 +105,7 @@ $(function() {
 		}
         });
         kbd.setup();
+        game.next();
 	update_score_board(game);
 	play_timer = setTimeout(function() {
 		play(morse,game);
