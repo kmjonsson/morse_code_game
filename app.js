@@ -1,9 +1,12 @@
 var repeat_time = 3000;
-var start_time = 3000;
+var start_time = 1000;
 var next_time = 1000;
 
 function get_game(game) {
 	let hash=window.location.href;
+	if ( hash.indexOf("#") > -1 ) {
+		hash=hash.substr(0,hash.indexOf("#"));
+	}
 	if ( hash.indexOf("?") > -1 ) {
 		let cfg=hash.substr(hash.indexOf("?")+1).split("/");
 		for (i = 0; i < game.games.length; i++) {
@@ -25,14 +28,15 @@ function get_game(game) {
 }
 
 function update_score_board(game) {
-	$("#cnt").html(game.count());
-	$("#score").html(game.score().toFixed(2));
-	$("#correct").html(game.correct());
-	$("#current").html(game.current());
+	$(".items_cnt").html(game.count());
+	$(".score").html(game.score().toFixed(2));
+	$(".correct").html(game.correct());
+	$(".correct_percent").html((game.correct()*100/game.count()).toFixed(1));
+	$(".current").html(game.current());
 	if(!game.done()) {
-		$("#left").html("" + (game.count()-game.at()+1) + " left, ") ;
+		$(".items_left").html("" + (game.count()-game.at()+1) + " left, ") ;
 	} else {
-		$("#left").html("");
+		$(".items_left").html("");
 	}
 }
 
@@ -48,6 +52,16 @@ function play(morse,game) {
 	play_timer = setTimeout(function() {
 		play(morse,game);
 	}, repeat_time + t*1000);
+}
+
+function start(morse,game) {
+	game.reset();
+	game.next();
+	set_time = true;
+	update_score_board(game);
+	play_timer = setTimeout(function() {
+		play(morse,game);
+	}, start_time);
 }
 
 $(function() {
@@ -101,22 +115,19 @@ $(function() {
 					play(morse,game);
 				}, next_time);
 			} else {
-				alert("Percent: " + (game.correct()*100/game.count()).toFixed(1)
-					+ "%\nScore: " + game.score().toFixed(2) + "p");
-				game.reset();
-				game.next();
-				set_time = true;
-				play_timer = setTimeout(function() {
-					play(morse,game);
-				}, start_time);
+				setTimeout(function() {
+					document.location = "#scoreBoard";
+				},1000);
 			}
 			update_score_board(game);
 		}
         });
         kbd.setup();
-        game.next();
-	update_score_board(game);
-	play_timer = setTimeout(function() {
-		play(morse,game);
-	}, start_time);
+	$("#startButton").click(function() {
+		document.location = "#play";
+		start(morse,game);
+	});
+	setTimeout(function() {
+		document.location = "#startDialog";
+	},100);
 });

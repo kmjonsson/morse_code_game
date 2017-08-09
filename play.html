@@ -19,11 +19,33 @@
 </head>
 <body>
 <div id="wrapper" style="text-align: center">
-	<div id="score_board"><span style="display: none" id="correct"></span><span style="display: none" id="cnt"></span> <span id="left"></span><span id="score"></span>p <span style="display: none" id="current"></span></div>
+	<div id="home" style="float:left"><a href="index.html"><img id="cw_key" src="image/cw_key.small.png" alt="CW_KEY"/></a></div>
+	<div id="score_board"><span style="display: none" class="correct"></span><span style="display: none" class="items_cnt"></span> <span class="items_left"></span><span class="score">0.00</span>p <span style="display: none" class="current"></span></div>
         <hr>
 	<div id="keyboard"></div>
         <hr>
-        <div id="about"><a href="about.html">By Magnus Jonsson/SA2BRJ</a></div>
+        <div id="about">By Magnus Jonsson/SA2BRJ</div>
 </div>
+
+<div id="startDialog" class="modalDialog">
+        <div>
+		<a href="index.html" title="Close" class="close">X</a>
+                <h1>Push start to start</h1>
+		<p>&nbsp;</p>
+		<div class="center"><button id="startButton">Start</button></div>
+	</div>
+</div>
+
+<div id="scoreBoard" class="modalDialog">
+        <div>
+		<a href="#startDialog" title="Close" class="close">X</a>
+                <h1>Score</h1>
+		<div class="center">
+		<p>Correct answers: <span class="correct"></span> (<span class="correct_percent"></span>%)<p>
+		<p>Score: <span class="score"></span> (lower is better)</span><p>
+		</div>
+	</div>
+</div>
+
 </body>
 </html>

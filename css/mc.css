@@ -1,5 +1,7 @@
 body {
-    background: #144766
+    background: #144766;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1vw;
 }
 
 #score_board {
@@ -47,7 +49,6 @@ a:active {
 
 .modalDialog {
 	position: fixed;
-	font-family: Arial, Helvetica, sans-serif;
 	top: 0;
 	right: 0;
 	bottom: 0;
@@ -62,9 +63,9 @@ a:active {
 }
 
 .modalDialog > div {
-	width: 400px;
+	width: 40vw;
 	position: relative;
-	margin: 10% auto;
+	margin: 5% auto;
 	padding: 5px 20px 13px 20px;
 	border-radius: 10px;
 	background: #fff;
@@ -87,14 +88,15 @@ a:active {
 }
 
 .close {
+	font-size: 1vw;
 	background: #606061;
 	color: #FFFFFF;
-	line-height: 25px;
+	line-height: 2vw;
 	position: absolute;
-	right: -12px;
+	right: -1vw;
 	text-align: center;
-	top: -10px;
-	width: 24px;
+	top: -1vh;
+	width: 2vw;
 	text-decoration: none;
 	font-weight: bold;
 	-webkit-border-radius: 12px;
@@ -106,3 +108,29 @@ a:active {
 }
 
 .close:hover { background: #00d9ff; }
+
+.center { 
+	text-align: center;
+}
+
+#startButton {
+	padding: 5px 20px 13px 20px;
+	border-radius: 10px;
+	font-size: 4vw;
+}
+
+#scoreBoard {
+	font-size: 3vw;
+}
+
+#startDialog {
+	font-size: 2vw;
+}
+
+#aboutDialog {
+	font-size: 1.3vw;
+}
+
+#cw_key {
+	width: 5vw;
+}
