@@ -131,6 +131,12 @@ a:active {
 	font-size: 1.3vw;
 }
 
+#aboutDialog > div > div{
+	height: 60vh;
+	overflow: scroll;
+	overflow-x: hidden;
+}
+
 #cw_key {
 	width: 5vw;
 }
