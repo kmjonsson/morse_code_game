@@ -90,6 +90,9 @@ $(function() {
 			return;
 		}
 		clearTimeout(play_timer);
+		if(!(""+document.location).match(/#play/)) {
+			return;
+		}
 		let correct = game.event(key);
 		if(correct) {
 			$(obj).animate({ backgroundColor: "green" }, 250, function() {
@@ -130,4 +133,32 @@ $(function() {
 	setTimeout(function() {
 		document.location = "#startDialog";
 	},100);
+	$('body').keypress(function(ev) {
+		if((ev.key == 'Enter' || ev.key == " ")
+			&& (""+document.location).match(/#startDialog/)) {
+			document.location = "#play";
+			start(morse,game);
+			return;
+		}
+		if((ev.key == 'Escape' || ev.key == 'Enter' || ev.key == " ")
+			&& (""+document.location).match(/#scoreBoard/)) {
+			document.location = "#startDialog";
+			return;
+		}
+		if(ev.key == 'Escape'
+			&& (""+document.location).match(/#startDialog/)) {
+			setTimeout(function() {
+				document.location = "index.html";
+			},100);
+			return;
+		}
+		if(ev.key == 'Escape'
+			&& (""+document.location).match(/#play/)) {
+			clearTimeout(play_timer);
+			setTimeout(function() {
+				document.location = "#scoreBoard";
+			},100);
+			return;
+		}
+	});
 });
