@@ -6,6 +6,8 @@
     <title>Morse Code Learning Game</title>
     <link rel="stylesheet" type="text/css" href="css/mc.css">
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="js/jquery.animate-colors-min.js"></script>
+    <script src="js/js.cookie.js"></script>
     <script src="dist/game.js"></script>
     <script src="index.js"></script>
 </head>
@@ -50,6 +52,7 @@
 		<option value="27">27</option>
 		<option value="30">30</option>
 	</select>
+	<button id="save">save</button>
 	<div id="games"></div>
 	<hr>
 	<div id="about"><a href="#aboutDialog">About</a> - By Magnus Jonsson/SA2BRJ</div>
@@ -66,7 +69,7 @@
 		<h2>Keyboard</h2>
 		<p>Real keyboard can be used instead for pushing the virtual keyboard.</p>
 		<p>Enter/Space can be used to push the start button.</p>
-		<p>Enter/Space can be used to push the start button.</p>
+		<p>Esc/Enter/Space can be used to close the score board.</p>
 		<p>Esc can be used to abort game and leave game.</p>
 		<p></p>
 		<h2>LICENCE</h2>
@@ -76,6 +79,16 @@
 		<h2>Cookies</h2>
 		<p>No cookies are used</p>
 		</div>
+	</div>
+</div>
+
+<div id="cookieDialog" class="modalDialog">
+	<div class="center">
+		<a href="#close" title="Close" class="close">X</a>
+		<h1>Accept usage of Cookies</h1>
+		<p>By pushing ACCEPT below you accept the usage of cookies on this site.</p>
+		<p>&nbsp;</p>
+                <div class="center"><button id="acceptButton">ACCEPT</button></div>
 	</div>
 </div>
 </body>

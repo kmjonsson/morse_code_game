@@ -140,3 +140,10 @@ a:active {
 #cw_key {
 	width: 5vw;
 }
+
+#acceptButton {
+	padding: 5px 20px 13px 20px;
+	border-radius: 10px;
+	font-size: 4vw;
+}
+
