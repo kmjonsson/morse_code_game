@@ -10,15 +10,20 @@ function get_game(game) {
 	if ( hash.indexOf("?") > -1 ) {
 		let cfg=hash.substr(hash.indexOf("?")+1).split("/");
 		for (i = 0; i < game.games.length; i++) {
-			if(game.games[i].id == cfg[0]) {
-				if(cfg[1] !== undefined) {
-					game.games[i].set_count(cfg[1]);
+			for (j = 0; j < game.games[i].games.length; j++) {
+				if(game.games[i].games[j].id == cfg[0]) {
+					if(cfg[1] !== undefined) {
+						game.games[i].games[j].set_count(cfg[1]);
+					}
+					return { "game" : game.games[i].games[j],  
+						"pgame" : game.games[i],
+						"count": cfg[1],
+						"pitch": cfg[2],
+						"wpm": cfg[3],
+						"fwpm": cfg[4],
+						"gamestr" : [cfg[0],cfg[3],cfg[4]].join("_")
+					};
 				}
-				return { "game" : game.games[i], "count": cfg[1],
-					"pitch": cfg[2],
-					"wpm": cfg[3],
-					"fwpm": cfg[4] 
-				};
 			}
 		}
 	} else {
@@ -71,13 +76,14 @@ function start(morse,game) {
 $(function() {
         window.AudioContext = window.AudioContext || window.webkitAudioContext;
         var ctx = new AudioContext();
-	var morsegame = new MorseGame.Game();
+	var morsegame = new MorseGame.Games();
 	var cfg = get_game(morsegame);
 	if(cfg === undefined) {
 		return;
 	}
 	var game = cfg.game;
 	$("span.game").html(game.name);
+	$("span.pgame").html(cfg.pgame.name);
 	$("span.wpm").html(cfg.wpm);
 	$("span.fwpm").html(cfg.fwpm);
 	$("span.count").html(cfg.count);

@@ -1,10 +1,17 @@
 
 $(function() {
-	let game = new MorseGame.Game();
+	let game = new MorseGame.Games();
 	let html = "";
 	for (let i = 0; i < game.games.length; i++) {
-		html += '<a class="game" href="play.html?' + game.games[i].id + '">' + 
-		game.games[i].name+'</a><br>\n';
+		html += "<h2>" + game.games[i].name + "</h2>";
+		html += "<div>" + game.games[i].description + "</div>";
+		html += "<div>";
+		let games = game.games[i].games;
+		for (let j = 0; j < games.length; j++) {
+			html += '<a class="game" href="play.html?' + games[j].id + '">' + 
+			games[j].name+'</a> ';
+		}
+		html += "</div>";
 	}
 	$("#games").html(html);
 	$("body").on('click','a.game', function() {
