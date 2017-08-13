@@ -33,10 +33,9 @@ export abstract class MorseGame {
 		this._input += key;
 		if(this._input.length == this._current.length) {
 			let d:number = new Date().getTime();
-			if(d < this._start_time) {
-				d = this._start_time+10000;
+			if(d > this._start_time) {
+				this.add_score((d-this._start_time) / 1000.0);
 			}
-			this.add_score((d-this._start_time) / 1000.0);
 		}
 		let pos = this._input.length - 1;
 		return this._input.charAt(pos) == this._current.charAt(pos);
