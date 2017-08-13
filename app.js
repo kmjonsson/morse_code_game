@@ -29,7 +29,11 @@ function get_game(game) {
 
 function update_score_board(game) {
 	$(".items_cnt").html(game.count());
-	$(".score").html(game.score().toFixed(2));
+	if(game.correct() > 0) {
+		$(".score").html((game.score() / game.correct()).toFixed(2));
+	} else {
+		$(".score").html("0.00");
+	}
 	$(".correct").html(game.correct());
 	$(".correct_percent").html((game.correct()*100/game.count()).toFixed(1));
 	$(".current").html(game.current());
