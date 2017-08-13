@@ -77,6 +77,11 @@ $(function() {
 		return;
 	}
 	var game = cfg.game;
+	$("span.game").html(game.name);
+	$("span.wpm").html(cfg.wpm);
+	$("span.fwpm").html(cfg.fwpm);
+	$("span.count").html(cfg.count);
+	
         var morse = new MorsePlayer.MorsePlayer(ctx,cfg.pitch,cfg.wpm,cfg.fwpm);
         var kbd = new Keyboard.Keyboard('#keyboard');
 	document.addEventListener("visibilitychange", function() {
