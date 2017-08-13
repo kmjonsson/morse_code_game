@@ -95,6 +95,9 @@ $(function() {
 			clearTimeout(play_timer);
 		}
 		if(document.visibilityState == 'visible') {
+			if(!(""+document.location).match(/#play/)) {
+				return;
+			}
 			play_timer = setTimeout(function() {
 				play(morse,game);
 			}, start_time);
