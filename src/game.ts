@@ -46,7 +46,7 @@ export class Game {
 
 export class Games {
 	games :Game[] = [
-		new Game('Koch', 'Each new lesson adds a new letter. Practice until you reach at 90%', [
+		new Game('Koch', 'Each new lesson adds a new letter. Practice until you reach 90% accuracy', [
 				new Koch('kosh1' ,'KM',1),
 				new Koch('kosh2' ,'U',2),
 				new Koch('kosh3' ,'R',3),
