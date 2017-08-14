@@ -1,4 +1,17 @@
 
+function update_bg() {
+	let id_suffix = "_" + [$("select[name=count]").val(),$("select[name=wpm]").val(),$("select[name=fwpm]").val()].join("_");
+	$('a.game').each(function() {
+		let id = $(this).attr('id') + id_suffix;
+		let best = Cookies.getJSON(id);
+		if(best !== undefined && best.percent >= 90.0) {
+			$(this).addClass("above90");
+		} else {
+			$(this).removeClass("above90");
+		}
+	});
+}
+
 $(function() {
 	let game = new MorseGame.Games();
 	let html = "";
@@ -8,7 +21,7 @@ $(function() {
 		html += "<div>";
 		let games = game.games[i].games;
 		for (let j = 0; j < games.length; j++) {
-			html += '<a class="game" href="play.html?' + games[j].id + '">' + 
+			html += '<a class="game" id="' + games[j].id + '" href="play.html?' + games[j].id + '">' + 
 			games[j].name+'</a> ';
 		}
 		html += "</div>";
@@ -67,4 +80,6 @@ $(function() {
 		$("select[name=wpm]").val(wpm);
 		$("select[name=fwpm]").val(fwpm);
 	}
+	setTimeout(function() { update_bg(); },100);
+	$("select").change(function() { update_bg(); });
 });

@@ -21,7 +21,7 @@ function get_game(game) {
 						"pitch": cfg[2],
 						"wpm": cfg[3],
 						"fwpm": cfg[4],
-						"gamestr" : [cfg[0],cfg[3],cfg[4]].join("_")
+						"gamestr" : [cfg[0],cfg[1],cfg[3],cfg[4]].join("_")
 					};
 				}
 			}
@@ -136,6 +136,28 @@ $(function() {
 					play(morse,game);
 				}, next_time);
 			} else {
+				$("span.comment").html("");
+				let p = (game.correct()*100/game.count()).toFixed(1);
+				if(Cookies.get("accept-cookies") !== undefined &&
+				   p >= 90.0) {
+					let s =  (game.score() / game.correct()).toFixed(2);
+					let best = Cookies.getJSON(cfg.gamestr);
+					if(best === undefined) {
+						best = { score: s, percent: p };
+						$("span.comment").html("Yes! First time reaching 90%!");
+					}
+					if(p > best.percent) {
+						$("span.comment").html("Yes! New personal best!");
+						best.percent = p;
+						best.score = s;
+					}
+					if(p == best.percent && s < best.score) {
+						$("span.comment").html("Yes! You beat your best score!");
+						best.score = s;
+					}
+					Cookies.set("accept-cookies", 'yes' , { expires: 30, path: '' });
+					Cookies.set(cfg.gamestr, best , { expires: 30, path: '' });
+				}
 				setTimeout(function() {
 					document.location = "#scoreBoard";
 				},1000);

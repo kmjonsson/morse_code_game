@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="/virtual_keyboard/css/keyboard.css">
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <script src="js/jquery.animate-colors-min.js"></script>
+    <script src="js/js.cookie.js"></script>
     <script src="/morse_code_player/morse_code_player.js"></script>
     <script src="/virtual_keyboard/keyboard.js"></script>
     <script src="dist/game.js"></script>
@@ -35,10 +36,11 @@
 <div id="scoreBoard" class="modalDialog">
         <div>
 		<a href="#startDialog" title="Close" class="close">X</a>
-                <h1>Score</h1>
 		<div class="center">
-		<p>Correct answers: <span class="correct"></span> (<span class="correct_percent"></span>%)<p>
-		<p>Score: <span class="score"></span> (lower is better)<p>
+                <h1>Score</h1>
+		<p>Correct answers: <span class="correct"></span> (<span class="correct_percent"></span>%)<br>
+		Score: <span class="score"></span><br>
+		<span class="comment"></span></p>
 		<p id="gamecfg"><span class="pgame"></span> - <span class="game"></span><br/>count: <span class="count"></span>, wpm: <span class="wpm"></span> (<span class="wpm"></span>)<p>
 		</div>
 	</div>
