@@ -3,10 +3,11 @@ var webpack = require('webpack');
 var PROD = JSON.parse(process.env.PROD_ENV || '0');
 
 module.exports = {
-  entry: ['./src/game.ts' ],
+  entry: { 'play' : './src/play.ts', 
+           'index': './src/index.ts' },
   output: {
     library: 'MorseGame',
-    filename: 'dist/game.js'
+    filename: 'dist/[name].js'
   },
   resolve: {
     extensions: ['.ts']

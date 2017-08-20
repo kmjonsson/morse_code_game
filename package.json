@@ -1,5 +1,5 @@
 {
-  "name": "mc",
+  "name": "mcg",
   "version": "0.0.0",
   "license": "AGPL-3.0",
   "repository": {
@@ -7,8 +7,16 @@
     "url": "https://github.com/kmjonsson/mc.git"
   },
   "devDependencies": {
+    "@types/jquery": "^3.2.10",
+    "@types/js-cookie": "^2.0.28",
+    "js-cookie": "^2.0.28",
     "ts-loader": "^2.3.2",
     "typescript": "^2.4.2",
     "webpack": "^3.4.1"
+  },
+  "dependencies": {
+    "@types/jquery": "^3.2.10",
+    "@types/js-cookie": "^2.0.28",
+    "jquery": "^3.2.1"
   }
 }

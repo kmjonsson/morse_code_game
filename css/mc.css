@@ -158,3 +158,14 @@ span.comment {
 .above90 {
 	background: green;
 }
+
+.clicked_green {
+	background: green;
+}
+.clicked_red {
+	background: red;
+}
+.keyboard {
+	transition: background-color 0.25s ease;
+}
+

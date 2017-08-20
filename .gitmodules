@@ -1,0 +1,6 @@
+[submodule "external/morse_code_player"]
+	path = external/morse_code_player
+	url = https://github.com/kmjonsson/morse_code_player.git
+[submodule "external/virtual_keyboard"]
+	path = external/virtual_keyboard
+	url = https://github.com/kmjonsson/virtual_keyboard.git

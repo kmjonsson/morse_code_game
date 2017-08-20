@@ -1,9 +1,9 @@
 
 import { MorseGame } from "./morsegame";
-import { CallSigns } from "./callsigns";
 
-export class Letters extends MorseGame {
+export class BasicGame extends MorseGame {
 	private letters:number;
+	protected chars:string;
         constructor(id: string, name: string, letters:number) {
 		super(id,name);
 		this.letters = letters;
@@ -13,13 +13,26 @@ export class Letters extends MorseGame {
 			return;
 		}
 		super.next();
-		let s:string = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		let l:string[] = s.split("");
+		let l:string[] = this.chars.split("");
 		this._current = "";
 		for(let i=0;i<this.letters;i++) {
-			this._current += l[Math.floor((Math.random() * s.length))];
+			this._current += l[Math.floor((Math.random() * this.chars.length))];
 		}
 	}
+}
+
+export class Letters extends BasicGame {
+        constructor(id: string, name: string, letters:number) {
+		super(id,name,letters);
+		this.chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        }
+}
+
+export class AllChars extends BasicGame {
+        constructor(id: string, name: string, letters:number) {
+		super(id,name,letters);
+		this.chars = "KMURESNAPTLWI.JZ=FOY,VG5/Q92H38B?47C1D60X";
+        }
 }
 
 export class Koch extends MorseGame {
@@ -95,8 +108,12 @@ export class Games {
 				new Letters('fourLetters','4',4),
 				new Letters('fiveLetters','5',5),
 			]),
-		new Game('Random Call Signs','Complete callsigns from MASTER-files',[
-				new CallSigns('callSigns','Random Callsigns'),
+		new Game('All Chars','Number in a row',[
+				new AllChars('chars','1',1),
+				new AllChars('twoChars','2',2),
+				new AllChars('threeChars','3',3),
+				new AllChars('fourChars','4',4),
+				new AllChars('fiveChars','5',5),
 			]),
 	];
 }
