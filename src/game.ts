@@ -1,22 +1,89 @@
 
 import { MorseGame } from "./morsegame";
 
+class KeyInfo {
+	public count:number = 0;
+	public sum:number = 0;
+	add(n:number) {
+		this.sum += n;
+		this.count++;
+	}
+	avg():number {
+		if(this.count == 0) {
+			return 0;
+		}
+		return this.sum / this.count;
+	}
+}
+
+class Distr {
+	protected ch : { [id:string] : KeyInfo } = {};
+	add(ch:string, n:number = 0) {
+		if(this.ch[ch] === undefined) {
+			this.ch[ch] = new KeyInfo();
+		}
+		if(n > 0) {
+			this.ch[ch].add(n);
+		}
+	}
+	sum() {
+		let s = 0;
+		let k:string[] = Object.keys(this.ch);
+		for(let i=0;i<k.length;i++) {
+			s += this.ch[k[i]].avg();
+		}
+		return s;
+	}
+	get():string {
+		let s = this.sum();
+		let n = Math.random() * s;
+		let k:string[] = Object.keys(this.ch);
+		for(let i=0;i<k.length;i++) {
+			n -= this.ch[k[i]].avg();
+			if(n <= 0) {
+				return k[i];
+			}
+		}
+		alert("MAJOR FUCKIP");
+		return "A";
+	}
+}
+
 export class BasicGame extends MorseGame {
 	private letters:number;
 	protected chars:string;
+	protected dist:Distr = new Distr();
         constructor(id: string, name: string, letters:number) {
 		super(id,name);
 		this.letters = letters;
         }
+	reset() {
+		super.reset();
+	}
 	next() {
 		if(this.done()) {
 			return;
 		}
 		super.next();
-		let l:string[] = this.chars.split("");
 		this._current = "";
 		for(let i=0;i<this.letters;i++) {
-			this._current += l[Math.floor((Math.random() * this.chars.length))];
+			this._current += this.dist.get();
+		}
+	}
+	init() {
+		let l:string[] = this.chars.split("");
+		for(let i=0;i<l.length;i++) {
+			this.dist.add(l[i],10);
+		}
+	}
+	add_score(score : number) {
+		super.add_score(score);
+		let l:string[] = this._current.split("");
+		for(let i=0;i<l.length;i++) {
+			if(score == 0 || score > 10) {
+				score = 10;
+			}
+			this.dist.add(l[i],score);
 		}
 	}
 }
@@ -25,6 +92,7 @@ export class Letters extends BasicGame {
         constructor(id: string, name: string, letters:number) {
 		super(id,name,letters);
 		this.chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		this.init();
         }
 }
 
@@ -32,24 +100,17 @@ export class AllChars extends BasicGame {
         constructor(id: string, name: string, letters:number) {
 		super(id,name,letters);
 		this.chars = "KMURESNAPTLWI.JZ=FOY,VG5/Q92H38B?47C1D60X";
+		this.init();
         }
 }
 
-export class Koch extends MorseGame {
-	private lesson:number;
+export class Koch extends BasicGame {
         constructor(id: string, name: string, lesson:number) {
-		super(id,name);
-		this.lesson = lesson;
-        }
-	next() {
-		if(this.done()) {
-			return;
-		}
-		super.next();
+		super(id,name,1);
 		let s:string = "KMURESNAPTLWI.JZ=FOY,VG5/Q92H38B?47C1D60X";
-		let l:string[] = s.split("");
-		this._current = l[Math.floor(Math.random() * (1+this.lesson))];
-	}
+		this.chars = s.substring(0,lesson+1);
+		this.init();
+        }
 }
 
 export class Game {
