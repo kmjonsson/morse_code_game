@@ -33,10 +33,43 @@ class Play {
 	// in an active game?
 	active:boolean = false;
 
+	volume:number = 100;
+
         dialogs: ModalDialogs=new ModalDialogs([
                         new ModalDialog('#startDialog'),
                         new ModalDialog('#scoreBoard')
                 ]);
+
+	incr_volume() {
+		this.volume += 10;
+		if(this.volume > 100) {
+			this.volume = 100;
+		}
+		this.save_volume();
+	};
+
+	decr_volume() {
+		this.volume -= 10;
+		if(this.volume < 0) {
+			this.volume = 0;
+		}
+		this.save_volume();
+	};
+	load_volume() {
+		let volume = Cookies.get("volume")
+		if(volume !== undefined) {
+			this.volume = parseInt(volume);
+		}
+		this.save_volume();
+	}
+
+	save_volume() {
+		if(Cookies.get("accept-cookies") !== undefined) {
+			Cookies.set('volume', this.volume , { expires: 30, path: '' });
+		}
+		this.morse.set_volume(this.volume);
+		$("span.volume").html("" + this.volume);
+	}
 
 	constructor() {
 		let hash=window.location.href;
@@ -67,6 +100,7 @@ class Play {
 			//window.AudioContext = window.AudioContext || window.webkitAudioContext;
 			let ctx = new AudioContext();
 			this.morse = new MorsePlayer(ctx,this.pitch,this.wpm,this.fwpm);
+			this.load_volume();
 		}
 		{ // Setup keyboard
 			var self = this;
@@ -249,6 +283,14 @@ $(function() {
 		if(ev.key == 'Escape' && play.active) {
 			play.stop();
 			play.dialogs.show('#scoreBoard');
+			return;
+		}
+		if(ev.key == '+') {
+			play.incr_volume();
+			return;
+		}
+		if(ev.key == '-') {
+			play.decr_volume();
 			return;
 		}
 	});
