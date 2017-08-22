@@ -82,7 +82,7 @@ a:active {
 	text-align: center;
 }
 
-.modalDialog:target {
+.modalDialog_show {
 	opacity:1;
 	pointer-events: auto;
 }

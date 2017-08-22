@@ -51,13 +51,13 @@
 	<button id="save">save</button>
 	<div id="games"></div>
 	<hr>
-	<div id="about"><a href="#aboutDialog">About</a> - By Magnus Jonsson/SA2BRJ</div>
+	<div id="about"><a class="dialog" href="#aboutDialog">About</a> - By Magnus Jonsson/SA2BRJ</div>
 
 </div>
 
 <div id="aboutDialog" class="modalDialog">
 	<div class="center">
-		<a href="#close" title="Close" class="close">X</a>
+		<a href="#aboutDialog" title="Close" class="close">X</a>
 		<div>
 		<h1>About</h1>
 		<p>This is a simple web/"mobile" "game" to learn morse code.</p>
@@ -74,14 +74,14 @@
 		<p>The source code is available at my github page:<br><a href="https://github.com/kmjonsson/morse_code_game">https://github.com/kmjonsson/morse_code_game</a></p>
 		<h2>Cookies</h2>
 		<p>Cookies are used to save configuration and you progress.</p>
-		<p>Active <a href="#cookieDialog">ACCEPT</a> needed before first save.</p>
+		<p>Active <a class="dialog" href="#cookieDialog">ACCEPT</a> needed before first save.</p>
 		</div>
 	</div>
 </div>
 
 <div id="cookieDialog" class="modalDialog">
 	<div class="center">
-		<a href="#close" title="Close" class="close">X</a>
+		<a href="#cookieDialog" title="Close" class="close">X</a>
 		<h1>Accept usage of Cookies</h1>
 		<p>By pushing ACCEPT below you accept the usage of cookies on this site.</p>
 		<p>&nbsp;</p>

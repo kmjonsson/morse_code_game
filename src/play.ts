@@ -8,6 +8,10 @@ import { MorseGame } from "./morsegame";
 import { MorsePlayer } from "../external/morse_code_player/src/morse";
 import { Keyboard } from "../external/virtual_keyboard/src/keyboard";
 
+import { ModalDialogs, ModalDialog } from "./modal";
+
+
+
 class Play {
 	repeat_time : number = 3000;
 	start_time : number = 1000;
@@ -24,13 +28,18 @@ class Play {
 	set_time:boolean = true;
 
 	morse: MorsePlayer;
-	kbd : Keyboard;
+	kbd : Keyboard = new Keyboard('#keyboard');
+
+	// in an active game?
+	active:boolean = false;
+
+        dialogs: ModalDialogs=new ModalDialogs([
+                        new ModalDialog('#startDialog'),
+                        new ModalDialog('#scoreBoard')
+                ]);
 
 	constructor() {
 		let hash=window.location.href;
-		if ( hash.indexOf("#") > -1 ) {
-			hash=hash.substr(0,hash.indexOf("#"));
-		}
 		if ( hash.indexOf("?") < 0 ) {
 			alert("No game :-(");
 		}
@@ -60,7 +69,6 @@ class Play {
 			this.morse = new MorsePlayer(ctx,this.pitch,this.wpm,this.fwpm);
 		}
 		{ // Setup keyboard
-			this.kbd = new Keyboard('#keyboard');
 			var self = this;
 			this.kbd.on_click(function(key,obj) {
 				self.click(key,obj);
@@ -116,15 +124,21 @@ class Play {
 		this.game.next();
 		this.set_time = true;
 		this.update_score_board();
+		this.active = true;
 		var self = this;
 		this.play_timer = setTimeout(function() {
 			self.play();
 		}, this.start_time);
 	}
 	stop() {
+		this.active = false;
+		this.pause();
+	}
+	pause() {
 		clearTimeout(this.play_timer);
 	}
 	resume(next:boolean=false) {
+		if(!this.active) { return; }
 		let t = this.start_time;
 		if(next) {
 			t = this.next_time;
@@ -138,8 +152,8 @@ class Play {
 		if(this.game.done()) {
 			return;
 		}
-		this.stop();
-		if(!(""+document.location).match(/#play/)) {
+		this.pause();
+		if(!this.active) {
 			return;
 		}
 		let correct = this.game.event(key);
@@ -161,13 +175,14 @@ class Play {
 			},250);
 		}
 		if(this.game.goto_next()) {
-			this.stop();
+			this.pause();
 			this.game.next();
 			this.update_score_board();
 			if(!this.game.done()) {
 				this.set_time = true;
 				this.resume(true);
 			} else {
+				this.stop();
 				$("span.comment").html("");
 				if(Cookies.get("accept-cookies") !== undefined && this.percent() >= 90.0) {
 					let best = Cookies.getJSON(this.gamestr());
@@ -187,9 +202,7 @@ class Play {
 					Cookies.set("accept-cookies", 'yes' , { expires: 30, path: '' });
 					Cookies.set(this.gamestr(), best , { expires: 30, path: '' });
 				}
-				setTimeout(function() {
-					document.location.href = "#scoreBoard";
-				},1000);
+				this.dialogs.show("#scoreBoard");
 			}
 			this.update_score_board();
 		}
@@ -199,52 +212,43 @@ class Play {
 $(function() {
 	let play = new Play();
 
+	play.dialogs.show("#startDialog");
+
 	document.addEventListener("visibilitychange", function() {
 		if(document.visibilityState == 'hidden') {
-			play.stop();
+			play.pause();
 		}
 		if(document.visibilityState == 'visible') {
-			if(!(""+document.location).match(/#play/)) {
-				return;
-			}
 			play.resume();
 		}
 	});
 
 	$("#startButton").click(function() {
-		document.location.href = "#play";
+		play.dialogs.close();
 		play.start();
 	});
-
-	setTimeout(function() {
-		document.location.href = "#startDialog";
-	},100);
+        $("#scoreBoardClose").click(function(event) {
+                event.preventDefault();
+                play.dialogs.show("#startDialog");
+        });
 
 	$('body').keypress(function(ev) {
-		if((ev.key == 'Enter' || ev.key == " ")
-			&& (""+document.location).match(/#startDialog/)) {
-			document.location.href = "#play";
-			play.start();
+		if((ev.key == 'Enter' || ev.key == " ") && play.dialogs.visable('#startDialog')) {
+			$("#startButton").click();
 			return;
 		}
-		if((ev.key == 'Escape' || ev.key == 'Enter' || ev.key == " ")
-			&& (""+document.location).match(/#scoreBoard/)) {
-			document.location.href = "#startDialog";
+		if((ev.key == 'Escape' || ev.key == 'Enter' || ev.key == " ") && play.dialogs.visable('#scoreBoard')) {
+			play.dialogs.show('#startDialog');
 			return;
 		}
-		if(ev.key == 'Escape'
-			&& (""+document.location).match(/#startDialog/)) {
-			setTimeout(function() {
-				document.location.href = "index.html";
-			},100);
+		if(ev.key == 'Escape' && play.dialogs.visable('#startDialog')) {
+			// Show index.html
+			setTimeout(function() { document.location.href = "."; },100);
 			return;
 		}
-		if(ev.key == 'Escape'
-			&& (""+document.location).match(/#play/)) {
+		if(ev.key == 'Escape' && play.active) {
 			play.stop();
-			setTimeout(function() {
-				document.location.href = "#scoreBoard";
-			},100);
+			play.dialogs.show('#scoreBoard');
 			return;
 		}
 	});

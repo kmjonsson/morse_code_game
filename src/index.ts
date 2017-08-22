@@ -3,10 +3,14 @@ import $ = require("jquery");
 import Cookies = require("js-cookie");
 import { Games, Game } from "./game";
 import { MorseGame } from "./morsegame";
+import { ModalDialogs, ModalDialog } from "./modal";
 
 class Index {
 	game: MorseGame;
-
+	dialogs: ModalDialogs=new ModalDialogs([
+			new ModalDialog('#aboutDialog'),
+			new ModalDialog('#cookieDialog')
+		]);
 	constructor() {
 		{ // Setup games
 			let game = new Games();
@@ -82,25 +86,40 @@ $(function() {
 	$("#acceptButton").click(function() {
 		Cookies.set('accept-cookies',"yes" , { expires: 30, path: '' });
 		$("#save").click();
-		setTimeout(function() {
-			document.location.href = "#close";
-		},100);
+		index.dialogs.close();
 	});
 	$("#save").click(function() {
 		if(Cookies.get("accept-cookies") !== undefined) {
+			// Renew
+			Cookies.set('accept-cookies',"yes" , { expires: 30, path: '' });
 			Cookies.set('count', $("select[name=count]").val() , { expires: 30, path: '' });
 			Cookies.set('pitch', $("select[name=pitch]").val() , { expires: 30, path: '' });
 			Cookies.set('wpm', $("select[name=wpm]").val() , { expires: 30, path: '' });
 			Cookies.set('fwpm', $("select[name=fwpm]").val() , { expires: 30, path: '' });
-                        $(this).animate({ backgroundColor: "green" }, 250, function() {
-                                $(this).animate({ backgroundColor: "#ddd" }, 250);
-                        });
 
-		} else {
+			// Blink save button green
+			var self=this;
+			$(self).addClass('clicked_green');
 			setTimeout(function() {
-                                document.location.href = "#cookieDialog";
-                        },100);
+				$(self).removeClass('clicked_green');
+			},250);
+		} else {
+			index.dialogs.show("#cookieDialog");
 		}
 	});
+
+	// Update backgrounds
 	$("select").change(function() { index.update_bg(); });
+
+	// Close Dialog
+	$("a.close").click(function(event) {
+		event.preventDefault();
+		index.dialogs.close();
+	});
+
+	// Open Dialog
+	$("a.dialog").click(function(event) {
+		event.preventDefault();
+		index.dialogs.show($(this).attr('href'));
+	});
 });
