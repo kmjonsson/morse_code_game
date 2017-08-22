@@ -40,6 +40,10 @@ class Play {
                         new ModalDialog('#scoreBoard')
                 ]);
 
+	showInfo() {
+		alert(JSON.stringify(this.game));
+	}
+
 	incr_volume() {
 		this.volume += 10;
 		if(this.volume > 100) {
@@ -291,6 +295,10 @@ $(function() {
 		}
 		if(ev.key == '-') {
 			play.decr_volume();
+			return;
+		}
+		if(ev.key == '@') {
+			play.showInfo();
 			return;
 		}
 	});
