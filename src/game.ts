@@ -11,10 +11,7 @@ class KeyInfo {
 		}
 	}
 	avg():number {
-		if(this.values.length == 0) {
-			return 0;
-		}
-		return this.values.reduce(function(x,v) { return x + v },0) / this.values.length;
+		return this.values.reduce(function(x,v) { return x + v },0) / this.values.length || 0;
 	}
 	count():number {
 		return this.values.length;
