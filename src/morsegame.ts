@@ -73,6 +73,9 @@ export abstract class MorseGame {
                 return this._score / this.correct();
 	}
 	percent():number {
+		if(this.charCount() == 0) {
+                        return 0;
+                }
                 return this.correct()*100/this.charCount();
         }
 	count() : number {
