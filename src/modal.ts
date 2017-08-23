@@ -2,7 +2,7 @@
 import $ = require("jquery");
 
 export class ModalDialog {
-	private id:string;
+	public id:string;
         constructor(id: string) {
 		this.id = id;
         }
@@ -23,26 +23,25 @@ export class ModalDialogs {
 		this.modals = modals;
         }
 	show(id:string) {
-		$(this.modals).each(function() {
-			if(this.id == id) {
-				$(this.id).addClass('modalDialog_show');
+		this.modals.forEach(function(e) {
+			if(e.id == id) {
+				e.show();
 			} else {
-				$(this.id).removeClass('modalDialog_show');
+				e.close();
 			}
 		});
 	}
 	visable(id:string):boolean {
-		var result=false;
-		$(this.modals).each(function() {
-			if(this.id == id) {
-				result = $(this.id).hasClass('modalDialog_show');
+		return this.modals.reduce(function(v,e) {
+			if(e.id == id) {
+				return e.visable();
 			}
-		});
-		return result;
+			return v;
+		},false);
 	}
 	close() {
-		$(this.modals).each(function() {
-			$(this.id).removeClass('modalDialog_show');
+		this.modals.forEach(function(e) {
+			e.close();
 		});
 	}
 }
