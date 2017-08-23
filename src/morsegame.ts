@@ -7,6 +7,7 @@ export abstract class MorseGame {
 	protected _start_time: number = 0;
 	protected _at: number = 0;
 	protected _count: number = 10;
+	protected _charCount: number = 0;
 	constructor(public id: string, public name: string) {
 		this.reset();
 	}
@@ -17,6 +18,7 @@ export abstract class MorseGame {
 		this._correct = 0;
 		this._score   = 0;
 		this._current = "";
+		this._charCount = 0
 		this._at = 0
 	}
 	set_start_time(t : number) {
@@ -32,9 +34,10 @@ export abstract class MorseGame {
 		}
 		this._input += key;
 		if(this._input.length == this._current.length) {
+			this._charCount += this._input.length;
 			let d:number = new Date().getTime();
-			if(d > this._start_time && this._input == this._current) {
-				this.add_score((d-this._start_time) / 1000.0);
+			if(d > this._start_time) {
+				this.add_score(((d-this._start_time) / 1000.0));
 			} else {
 				this.add_score(0);
 			}
@@ -52,14 +55,26 @@ export abstract class MorseGame {
 		this._at++;
 	}
 	add_score(score: number) {
-		if(this._input == this._current && score > 0) {
-			this._correct++;
-			this._score += score;
+		let ia:string[] = this._input.split("");
+		let ca:string[] = this._current.split("");
+		if(score > 0) {
+			for(let i=0;i<ia.length;i++) {
+				if(ia[i] == ca[i]) {
+					this._correct++;
+					this._score += score;
+				}
+			}
 		}
 	}
 	score() : number {
-		return this._score;
+		if(this.correct() == 0) {
+                        return 0;
+                }
+                return this._score / this.correct();
 	}
+	percent():number {
+                return this.correct()*100/this.charCount();
+        }
 	count() : number {
 		return this._count;
 	}
@@ -74,5 +89,8 @@ export abstract class MorseGame {
 	}
 	done() : boolean {
 		return this.count() < this.at();
+	}
+	charCount() : number {
+		return this._charCount;
 	}
 }

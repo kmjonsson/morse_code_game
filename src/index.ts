@@ -1,6 +1,7 @@
-
+// External libs
 import $ = require("jquery");
 import Cookies = require("js-cookie");
+
 import { Games, Game } from "./game";
 import { MorseGame } from "./morsegame";
 import { ModalDialogs, ModalDialog } from "./modal";

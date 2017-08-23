@@ -78,12 +78,17 @@ export class BasicGame extends MorseGame {
 	}
 	add_score(score : number) {
 		super.add_score(score);
+		let ia:string[] = this._input.split("");
 		let l:string[] = this._current.split("");
+		if(score > 10) {
+			score = 10;
+		}
 		for(let i=0;i<l.length;i++) {
-			if(score == 0 || score > 10) {
-				score = 10;
+			if(ia[i] == l[i]) {
+				this.dist.add(l[i],score);
+			} else {
+				this.dist.add(l[i],10);
 			}
-			this.dist.add(l[i],score);
 		}
 	}
 }
