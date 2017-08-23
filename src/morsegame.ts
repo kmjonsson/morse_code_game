@@ -67,16 +67,10 @@ export abstract class MorseGame {
 		}
 	}
 	score() : number {
-		if(this.correct() == 0) {
-                        return 0;
-                }
-                return this._score / this.correct();
+                return this._score / this.correct() || 0;
 	}
 	percent():number {
-		if(this.charCount() == 0) {
-                        return 0;
-                }
-                return this.correct()*100/this.charCount();
+                return this.correct()*100/this.charCount() || 0;
         }
 	count() : number {
 		return this._count;
