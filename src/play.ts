@@ -8,6 +8,7 @@ import { MorseGame } from "./morsegame";
 import { MorsePlayer } from "../external/morse_code_player/src/morse";
 import { Keyboard } from "../external/virtual_keyboard/src/keyboard";
 import { ModalDialogs, ModalDialog } from "./modal";
+import { Blink } from "./blink";
 
 class Play {
 	private repeat_time : number = 3000;
@@ -203,14 +204,6 @@ class Play {
 			self.play();
 		}, t);
 	}
-
-	blink(obj:any, css:string) {
-		$(obj).addClass(css);
-		setTimeout(function() {
-			$(obj).removeClass(css);
-		},250);
-	}
-
 	click(key:string,obj:any) {
 		this.pause();
 		if(this.game.done() || !this.active) {
@@ -218,10 +211,10 @@ class Play {
 		}
 		let correct = this.game.event(key);
 		if(correct) {
-			this.blink(obj,'clicked_green');
+			Blink.blink(obj,'clicked_green');
 		} else {
-			this.blink(obj,'clicked_red');
-			this.blink('.keyboard[key="' + this.game.get_current_char() + '"]','clicked_green');
+			Blink.blink(obj,'clicked_red');
+			Blink.blink('.keyboard[key="' + this.game.get_current_char() + '"]','clicked_green');
 		}
 		if(this.game.goto_next()) {
 			this.pause();
