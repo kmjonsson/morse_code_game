@@ -2,21 +2,26 @@
 import { MorseGame } from "./morsegame";
 
 class KeyInfo {
-	public count:number = 0;
-	public sum:number = 0;
+	private max:number = 3;
+	private values:number[] = [];
 	add(n:number) {
-		this.sum += n;
-		this.count++;
+		this.values.push(n);
+		while(this.values.length > this.max) {
+			this.values.shift();
+		}
 	}
 	avg():number {
-		if(this.count == 0) {
+		if(this.values.length == 0) {
 			return 0;
 		}
-		return this.sum / this.count;
+		return this.values.reduce(function(x,v) { return x + v },0) / this.values.length;
+	}
+	count():number {
+		return this.values.length;
 	}
 }
 
-class Distr {
+class Distribution {
 	protected ch : { [id:string] : KeyInfo } = {};
 	add(ch:string, n:number = 0) {
 		if(this.ch[ch] === undefined) {
@@ -27,32 +32,43 @@ class Distr {
 		}
 	}
 	sum() {
-		let s = 0;
-		let k:string[] = Object.keys(this.ch);
-		for(let i=0;i<k.length;i++) {
-			s += this.ch[k[i]].avg();
-		}
-		return s;
+		var self=this;
+		return Object.keys(this.ch).reduce(function(sum,value) {
+			if(self.ch[value].count()-1 > self.min()) {
+				return sum;
+			}
+			return sum + self.ch[value].avg()
+		},0);
+	}
+	min() {
+		var self=this;
+		return Object.keys(this.ch).reduce(function(min,value) {
+			if(min > self.ch[value].count()) {
+				return self.ch[value].count();
+			}
+			return min;
+		},Number.MAX_VALUE);
 	}
 	get():string {
-		let s = this.sum();
-		let n = Math.random() * s;
-		let k:string[] = Object.keys(this.ch);
-		for(let i=0;i<k.length;i++) {
-			n -= this.ch[k[i]].avg();
-			if(n <= 0) {
-				return k[i];
+		let n = Math.random() * this.sum();
+		var self=this;
+		return Object.keys(this.ch).reduce(function(s,x) {
+			if(self.ch[x].count()-1 > self.min()) {
+				return s;
 			}
-		}
-		alert("MAJOR FUCKIP");
-		return "A";
+			n -= self.ch[x].avg();
+			if(n <= 0) {
+				return s.concat(x);
+			}
+			return s;
+		},[]).shift();
 	}
 }
 
 export class BasicGame extends MorseGame {
 	private letters:number;
 	protected chars:string;
-	protected dist:Distr = new Distr();
+	protected dist:Distribution = new Distribution();
         constructor(id: string, name: string, letters:number) {
 		super(id,name);
 		this.letters = letters;
@@ -110,12 +126,24 @@ export class AllChars extends BasicGame {
 }
 
 export class Koch extends BasicGame {
+	private lesson:number;
         constructor(id: string, name: string, lesson:number) {
 		super(id,name,1);
+		this.lesson = lesson;
 		let s:string = "KMURESNAPTLWI.JZ=FOY,VG5/Q92H38B?47C1D60X";
 		this.chars = s.substring(0,lesson+1);
 		this.init();
         }
+	init() {
+		let l:string[] = this.chars.split("");
+		for(let i=0;i<l.length;i++) {
+			if(i < 2 || i < l.length-2) {
+				this.dist.add(l[i],1);
+			} else {
+				this.dist.add(l[i],10);
+			}
+		}
+	}
 }
 
 export class Game {
