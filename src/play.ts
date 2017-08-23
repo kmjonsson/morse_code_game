@@ -144,22 +144,20 @@ class Play {
 		$("span.correct").html(""+this.game.correct());
 		$("span.correct_percent").html(this.game.percent().toFixed(1));
 		$("span.current").html(this.game.current());
-		// TODO: Fix left kludge
-		let left = (this.game.count()-this.game.at()+1);
-		if(left > this.game.count()) { left = this.game.count() }
-		if(!this.game.done()) {
-			$("span.items_left").html("" + left + " left, ") ;
-		} else {
-			$("span.items_left").html("");
-		}
-		
 		$("span.game").html(this.game.name);
 		$("span.pgame").html(this.pgame.name);
 		$("span.wpm").html(""+this.wpm);
 		$("span.fwpm").html(""+this.fwpm);
 		$("span.count").html(""+this.count);
-
 		$("span.volume").html("" + this.volume);
+
+		let left = (this.game.count()-this.game.at()+1);
+		if(!this.game.done() && left <= this.game.count()) {
+			$("span.items_left").html("" + left + " left, ") ;
+		} else {
+			$("span.items_left").html("");
+		}
+		
 	}
 	play() {
 		let t = this.morse.play(this.game.current());
