@@ -5,6 +5,7 @@ import Cookies = require("js-cookie");
 import { Games, Game } from "./game";
 import { MorseGame } from "./morsegame";
 import { ModalDialogs, ModalDialog } from "./modal";
+import { Blink } from "./blink";
 
 class Index {
 	game: MorseGame;
@@ -59,6 +60,53 @@ class Index {
 				self.update_bg(); 
 			},100);
 		}
+		// add game parameters to game page.
+		$("body").on('click','a.game', function() {
+			document.location.href = $(this).attr("href")
+			+ "/" + $("select[name=count]").val()
+			+ "/" + $("select[name=pitch]").val()
+			+ "/" + $("select[name=wpm]").val()
+			+ "/" + $("select[name=fwpm]").val();
+			return false;
+		});
+		// Accept cookies
+		var self=this;
+		$("#acceptButton").click(function() {
+			Cookies.set('accept-cookies',"yes" , { expires: 30, path: '' });
+			$("#save").click();
+			self.dialogs.close();
+		});
+		// Save config.
+		$("#save").click(function() {
+			if(Cookies.get("accept-cookies") !== undefined) {
+				// Renew
+				Cookies.set('accept-cookies',"yes" , { expires: 30, path: '' });
+				Cookies.set('count', $("select[name=count]").val() , { expires: 30, path: '' });
+				Cookies.set('pitch', $("select[name=pitch]").val() , { expires: 30, path: '' });
+				Cookies.set('wpm', $("select[name=wpm]").val() , { expires: 30, path: '' });
+				Cookies.set('fwpm', $("select[name=fwpm]").val() , { expires: 30, path: '' });
+
+				// Blink save button green
+				Blink.blink(this,'clicked_green');
+			} else {
+				self.dialogs.show("#cookieDialog");
+			}
+		});
+
+		// Update backgrounds
+		$("select").change(function() { self.update_bg(); });
+
+		// Close Dialog
+		$("a.close").click(function(event) {
+			event.preventDefault();
+			self.dialogs.close();
+		});
+
+		// Open Dialog
+		$("a.dialog").click(function(event) {
+			event.preventDefault();
+			self.dialogs.show($(this).attr('href'));
+		});
 	}
 	update_bg() {
 		let id_suffix = "_" + [$("select[name=count]").val(),$("select[name=wpm]").val(),$("select[name=fwpm]").val()].join("_");
@@ -76,51 +124,4 @@ class Index {
 
 $(function() {
 	let index = new Index();
-	$("body").on('click','a.game', function() {
-		document.location.href = $(this).attr("href")
-		+ "/" + $("select[name=count]").val()
-		+ "/" + $("select[name=pitch]").val()
-		+ "/" + $("select[name=wpm]").val()
-		+ "/" + $("select[name=fwpm]").val();
-		return false;
-	});
-	$("#acceptButton").click(function() {
-		Cookies.set('accept-cookies',"yes" , { expires: 30, path: '' });
-		$("#save").click();
-		index.dialogs.close();
-	});
-	$("#save").click(function() {
-		if(Cookies.get("accept-cookies") !== undefined) {
-			// Renew
-			Cookies.set('accept-cookies',"yes" , { expires: 30, path: '' });
-			Cookies.set('count', $("select[name=count]").val() , { expires: 30, path: '' });
-			Cookies.set('pitch', $("select[name=pitch]").val() , { expires: 30, path: '' });
-			Cookies.set('wpm', $("select[name=wpm]").val() , { expires: 30, path: '' });
-			Cookies.set('fwpm', $("select[name=fwpm]").val() , { expires: 30, path: '' });
-
-			// Blink save button green
-			var self=this;
-			$(self).addClass('clicked_green');
-			setTimeout(function() {
-				$(self).removeClass('clicked_green');
-			},250);
-		} else {
-			index.dialogs.show("#cookieDialog");
-		}
-	});
-
-	// Update backgrounds
-	$("select").change(function() { index.update_bg(); });
-
-	// Close Dialog
-	$("a.close").click(function(event) {
-		event.preventDefault();
-		index.dialogs.close();
-	});
-
-	// Open Dialog
-	$("a.dialog").click(function(event) {
-		event.preventDefault();
-		index.dialogs.show($(this).attr('href'));
-	});
 });
