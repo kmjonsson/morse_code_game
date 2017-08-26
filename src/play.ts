@@ -100,17 +100,17 @@ class Play {
 				play.dialogs.show('#scoreBoard');
 				return;
 			}
-			if(ev.key == '+') {
+			if(ev.key == '>') {
 				play.set_volume(10);
 				return;
 			}
-			if(ev.key == '-') {
+			if(ev.key == '<') {
 				play.set_volume(-10);
 				return;
 			}
 
 			// Debug
-			if(ev.key == '@') {
+			if(ev.key == '#') {
 				play.showInfo();
 				return;
 			}

@@ -143,6 +143,27 @@ export class Koch extends BasicGame {
 	}
 }
 
+export class Sq extends BasicGame {
+	private lesson:number;
+        constructor(id: string, name: string, lesson:number) {
+		super(id,name,1);
+		this.lesson = lesson;
+		let s:string = "=+NLOEIXVT/?AZH,RDFYXBPSUQWKM7495CGJ813620";
+		this.chars = s.substring(0,lesson+1);
+		this.init();
+        }
+	init() {
+		let l:string[] = this.chars.split("");
+		for(let i=0;i<l.length;i++) {
+			if(i < 2 || i < l.length-2) {
+				this.dist.add(l[i],1);
+			} else {
+				this.dist.add(l[i],10);
+			}
+		}
+	}
+}
+
 export class Game {
         constructor(public name: string, public description: string, public games: MorseGame[]) {
 	}
@@ -191,6 +212,56 @@ export class Games {
 				new Koch('koch38','6',38),
 				new Koch('koch39','0',39),
 				new Koch('koch40','X',40),
+			]),
+		new Game('SK4SQ morse course order', 'Each new lesson adds a new letter. Practice until you reach 90% accuracy', [
+				new Sq('sq1' ,'=+',1),
+				new Sq('sq2' ,'N',2),
+				new Sq('sq3' ,'L',3),
+				new Sq('sq4' ,'O',4),
+				new Sq('sq5' ,'E',5),
+				new Sq('sq6' ,'I',6),
+				new Sq('sq7' ,'X',7),
+				new Sq('sq8' ,'V',8),
+				new Sq('sq9' ,'T',9),
+				new Sq('sq10','/',10),
+				new Sq('sq11','?',11),
+				new Sq('sq12','A',12),
+				new Sq('sq13','Z',13),
+				new Sq('sq14','H',14),
+				new Sq('sq15','Ö',15),
+				new Sq('sq16',"&#8730;",16),
+				new Sq('sq17',',',17),
+				new Sq('sq18','R',18),
+				new Sq('sq19','D',19),
+				new Sq('sq20','F',20),
+				new Sq('sq21','Y',21),
+				new Sq('sq22','-',22),
+				new Sq('sq23','X',23),
+				new Sq('sq24','Ä',24),
+				new Sq('sq25','B',25),
+				new Sq('sq26','P',26),
+				new Sq('sq27','S',27),
+				new Sq('sq28','U',28),
+				new Sq('sq29','Q',29),
+				new Sq('sq30','W',30),
+				new Sq('sq31','K',31),
+				new Sq('sq32','Å',32),
+				new Sq('sq33','M',33),
+				new Sq('sq34','7',34),
+				new Sq('sq35','4',35),
+				new Sq('sq36','9',36),
+				new Sq('sq37','5',37),
+				new Sq('sq38','X',38),
+				new Sq('sq39','G',39),
+				new Sq('sq40','J',40),
+				new Sq('sq41','8',41),
+				new Sq('sq42','1',42),
+				new Sq('sq43','3',43),
+				new Sq('sq44','6',44),
+				new Sq('sq45','2',45),
+				new Sq('sq46','0',46),
+				new Sq('sq47','~',47),
+				new Sq('sq48','@',48),
 			]),
 		new Game('All Letters','Number of letters in a row',[
 				new Letters('letters','1',1),
