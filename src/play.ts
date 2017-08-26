@@ -203,6 +203,9 @@ class Play {
 		}, t);
 	}
 	click(key:string,obj:any) {
+		if(this.set_time) {
+			return;
+		}
 		this.pause();
 		if(this.game.done() || !this.active) {
 			return;
