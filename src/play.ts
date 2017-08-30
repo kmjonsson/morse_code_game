@@ -70,10 +70,9 @@ class Play {
 			this.load_volume();
 		}
 		{ // Setup keyboard
-			var self = this;
 			this.kbd.on_click(function(key,obj) {
-				self.click(key,obj);
-			});
+				this.click(key,obj);
+			}.bind(this));
 			this.kbd.setup();
 		}
 
@@ -167,10 +166,9 @@ class Play {
 			this.set_time = false;
 		}
 		// Start repeat in repeate_time ms after laste pip
-		var self=this;
 		this.play_timer = setTimeout(function() {
-			self.play();
-		}, this.repeat_time + t*1000);
+			this.play();
+		}.bind(this), this.repeat_time + t*1000);
 	}
 	start() {
 		this.game.reset();
@@ -179,10 +177,9 @@ class Play {
 		this.update_html();
 		this.active = true;
 		// Start game in start_time ms
-		var self = this;
 		this.play_timer = setTimeout(function() {
-			self.play();
-		}, this.start_time);
+			this.play();
+		}.bind(this), this.start_time);
 	}
 	stop() {
 		this.active = false;
@@ -197,10 +194,9 @@ class Play {
 		if(next) {
 			t = this.next_time;
 		}
-		var self = this;
 		this.play_timer = setTimeout(function() {
-			self.play();
-		}, t);
+			this.play();
+		}.bind(this), t);
 	}
 	click(key:string,obj:any) {
 		if(this.set_time) {

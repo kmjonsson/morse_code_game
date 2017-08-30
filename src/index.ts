@@ -30,6 +30,7 @@ class Index {
 			}
 			$("#games").html(html);
 		}
+
 		{ // Handle Cookies
 			if(Cookies.get("accept-cookies") !== undefined) {
 				let count:string = Cookies.get('count');
@@ -54,12 +55,13 @@ class Index {
 				$("select[name=fwpm]").val(fwpm);
 			}
 		}
+
 		{ // update bg
-			var self=this;
 			setTimeout(function() { 
-				self.update_bg(); 
-			},100);
+				this.update_bg(); 
+			}.bind(this),100);
 		}
+
 		// add game parameters to game page.
 		$("body").on('click','a.game', function() {
 			document.location.href = $(this).attr("href")
@@ -69,13 +71,14 @@ class Index {
 			+ "/" + $("select[name=fwpm]").val();
 			return false;
 		});
+
 		// Accept cookies
-		var self=this;
 		$("#acceptButton").click(function() {
 			Cookies.set('accept-cookies',"yes" , { expires: 30, path: '' });
 			$("#save").click();
-			self.dialogs.close();
-		});
+			this.dialogs.close();
+		}.bind(this));
+
 		// Save config.
 		$("#save").click(function() {
 			if(Cookies.get("accept-cookies") !== undefined) {
@@ -87,26 +90,26 @@ class Index {
 				Cookies.set('fwpm', $("select[name=fwpm]").val() , { expires: 30, path: '' });
 
 				// Blink save button green
-				Blink.blink(this,'clicked_green');
+				Blink.blink("#save",'clicked_green');
 			} else {
-				self.dialogs.show("#cookieDialog");
+				this.dialogs.show("#cookieDialog");
 			}
-		});
+		}.bind(this));
 
 		// Update backgrounds
-		$("select").change(function() { self.update_bg(); });
+		$("select").change(function() { this.update_bg(); }.bind(this));
 
 		// Close Dialog
 		$("a.close").click(function(event) {
 			event.preventDefault();
-			self.dialogs.close();
-		});
+			this.dialogs.close();
+		}.bind(this));
 
 		// Open Dialog
 		$("a.dialog").click(function(event) {
 			event.preventDefault();
-			self.dialogs.show($(this).attr('href'));
-		});
+			this.dialogs.show($(this).attr('href'));
+		}.bind(this));
 	}
 	update_bg() {
 		let id_suffix = "_" + [$("select[name=count]").val(),$("select[name=wpm]").val(),$("select[name=fwpm]").val()].join("_");

@@ -29,36 +29,33 @@ class Distribution {
 		}
 	}
 	sum() {
-		var self=this;
 		return Object.keys(this.ch).reduce(function(sum,value) {
-			if(self.ch[value].count()-1 > self.min()) {
+			if(this.ch[value].count()-1 > this.min()) {
 				return sum;
 			}
-			return sum + self.ch[value].avg()
-		},0);
+			return sum + this.ch[value].avg()
+		}.bind(this),0);
 	}
 	min() {
-		var self=this;
 		return Object.keys(this.ch).reduce(function(min,value) {
-			if(min > self.ch[value].count()) {
-				return self.ch[value].count();
+			if(min > this.ch[value].count()) {
+				return this.ch[value].count();
 			}
 			return min;
-		},Number.MAX_VALUE);
+		}.bind(this),Number.MAX_VALUE);
 	}
 	get():string {
 		let n = Math.random() * this.sum();
-		var self=this;
 		return Object.keys(this.ch).reduce(function(s,x) {
-			if(self.ch[x].count()-1 > self.min()) {
+			if(this.ch[x].count()-1 > this.min()) {
 				return s;
 			}
-			n -= self.ch[x].avg();
+			n -= this.ch[x].avg();
 			if(n <= 0) {
 				return s.concat(x);
 			}
 			return s;
-		},[]).shift();
+		}.bind(this),[]).shift();
 	}
 }
 
