@@ -18,5 +18,9 @@
     "@types/jquery": "^3.2.10",
     "@types/js-cookie": "^2.0.28",
     "jquery": "^3.2.1"
+  },
+  "scripts": {
+    "dev": "PROD_ENV=0 webpack -w",
+    "prod": "PROD_ENV=1 webpack"
   }
 }
