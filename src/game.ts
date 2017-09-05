@@ -145,7 +145,7 @@ export class Sq extends BasicGame {
         constructor(id: string, name: string, lesson:number) {
 		super(id,name,1);
 		this.lesson = lesson;
-		let s:string = "=+NLOEIXVT/?AZH,RDFYXBPSUQWKM7495CGJ813620";
+		let s:string = "=+NLOEIXVT/?AZHÖ<,RDFY-XÄBPSUQWKÅM7495XGJ813620~@";
 		this.chars = s.substring(0,lesson+1);
 		this.init();
         }
@@ -226,7 +226,7 @@ export class Games {
 				new Sq('sq13','Z',13),
 				new Sq('sq14','H',14),
 				new Sq('sq15','Ö',15),
-				new Sq('sq16',"&#8730;",16),
+				new Sq('sq16',"<",16),
 				new Sq('sq17',',',17),
 				new Sq('sq18','R',18),
 				new Sq('sq19','D',19),
