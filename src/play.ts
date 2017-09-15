@@ -210,8 +210,9 @@ class Play {
 		if(correct) {
 			Blink.blink(obj,'clicked_green');
 		} else {
-			Blink.blink(obj,'clicked_red');
-			Blink.blink('.keyboard[key="' + this.game.get_current_char() + '"]','clicked_green');
+			Blink.blink('body','clicked_red');
+			Blink.blink('.keyboard[key!="' + this.game.get_current_char() + '"]','clicked_red');
+			Blink.blink('.keyboard[key="' + this.game.get_current_char() + '"]','clicked_green',500);
 		}
 		if(this.game.goto_next()) {
 			this.pause();
