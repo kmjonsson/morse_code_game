@@ -78,6 +78,13 @@ class Play {
 
 		this.dialogs.show("#startDialog");
 
+		$('#esc').click(function() {
+			if(play.active) {
+				play.stop();
+				play.dialogs.show('#scoreBoard');
+			}
+		});
+
 		// On key press
 		var play=this;
 		$('body').keypress(function(ev) {
