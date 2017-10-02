@@ -11,7 +11,11 @@ class KeyInfo {
 		}
 	}
 	avg():number {
-		return this.values.reduce(function(x,v) { return x + v },0) / this.values.length || 0;
+		let v = this.values.reduce(function(x,v) { return x + v },0) / this.values.length || 0;
+		if(v == 0) {
+			return 0;
+		}
+		return Math.pow(Math.E,v);
 	}
 	count():number {
 		return this.values.length;
