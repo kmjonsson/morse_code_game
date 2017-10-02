@@ -107,6 +107,60 @@ export class BasicGame extends MorseGame {
 	}
 }
 
+export class Calls extends BasicGame {
+	private pfix:string[] = [ 'SM', 'VK', 'PY', 'S5', 'OK', 'EA', 'OH0', 'SA','SB','SK','SL','SM', 
+				'HB9', 'ES', 'OZ', 'OE', 'EI', 'LU', 'HS', 'A','K','N','W', 'PA', 
+				'SV', 'I', 'ZS', 'JA', 'EA8', 'YL', 'SP', 'ON', 'LA', 'OH', 'DL', 
+				'LY', 'G','M', 'CT', 'TA', 'F', 'UA','RA', 'ZL', '5B', 'VE' ];
+	protected dist:Distribution = new Distribution();
+	extra:number = 1;
+        constructor(id: string, name: string, extra:number) {
+		super(id,name,extra);
+		this.extra = extra;
+		this.chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		this.init();
+        }
+	next() {
+		if(this.done()) {
+			return;
+		}
+		super.next();
+		let n = Math.floor(Math.random() * this.pfix.length);
+		this._current = this.pfix[n] + Math.floor(Math.random() * 10);
+		for(let i=0;i<this.extra;i++) {
+			this._current += this.dist.get();
+		}
+	}
+}
+
+export class QCode extends MorseGame {
+	private qc:string[] = [ 'QRK', 'QRK?', 'QRM', 'QRM?', 'QRN', 'QRN?', 'QRO', 'QRO?',
+				'QRP', 'QRP?', 'QRS', 'QRS?', 'QRT', 'QRT?', 'QRV', 'QRV?',
+				'QRX', 'QRX?', 'QRZ', 'QRZ?', 'QSB', 'QSB?', 'QSL', 'QSL?',
+				'QSO', 'QSO?', 'QSY', 'QSY?', 'QTH', 'QTH?' ];
+	next() {
+		if(this.done()) {
+			return;
+		}
+		super.next();
+		let n = Math.floor(Math.random() * this.qc.length);
+		this._current = this.qc[n];
+	}
+}
+
+export class Abbreviation extends MorseGame {
+	private qc:string[] = [ 'DE', 'TX', 'R', 'RX', 'BK', 'K', 'CQ', 'PSE', 'CW', 'UR', 'RST', 'MSG' ];
+	next() {
+		if(this.done()) {
+			return;
+		}
+		super.next();
+		let n = Math.floor(Math.random() * this.qc.length);
+		this._current = this.qc[n];
+	}
+}
+
+
 export class Letters extends BasicGame {
         constructor(id: string, name: string, letters:number) {
 		super(id,name,letters);
@@ -164,6 +218,10 @@ export class Sq extends BasicGame {
 		}
 	}
 }
+
+// <br/>
+export class Br extends MorseGame { }
+let br = new Br('br','<br/>');
 
 export class Game {
         constructor(public name: string, public description: string, public games: MorseGame[]) {
@@ -277,6 +335,14 @@ export class Games {
 				new AllChars('threeChars','3',3),
 				new AllChars('fourChars','4',4),
 				new AllChars('fiveChars','5',5),
+			]),
+		new Game('Other','Learn your',[
+				new QCode('qcode','QCodes'),
+				new Abbreviation('abbreviation','Abbreviation'),
+				br,
+				new Calls('call1','Calls, 1 in suffix',1),
+				new Calls('call2','Calls, 2 in suffix',2),
+				new Calls('call3','Calls, 3 in suffix',3),
 			]),
 	];
 }
