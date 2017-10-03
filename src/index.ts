@@ -108,7 +108,7 @@ class Index {
 		// Open Dialog
 		$("a.dialog").click(function(event) {
 			event.preventDefault();
-			this.dialogs.show($(this).attr('href'));
+			this.dialogs.show($(event.target).attr('href'));
 		}.bind(this));
 	}
 	update_bg() {
