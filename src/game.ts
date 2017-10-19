@@ -15,7 +15,7 @@ class KeyInfo {
 		if(v == 0) {
 			return 0;
 		}
-		return Math.pow(Math.E,v);
+		return Math.pow(2,v);
 	}
 	count():number {
 		return this.values.length;
