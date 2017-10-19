@@ -49,10 +49,15 @@ class Index {
 				if(fwpm === undefined) {
 					fwpm = "10";
 				}
+				let repeat:string = Cookies.get('repeat');
+				if(repeat === undefined) {
+					repeat = "2";
+				}
 				$("select[name=count]").val(count);
 				$("select[name=pitch]").val(pitch);
 				$("select[name=wpm]").val(wpm);
 				$("select[name=fwpm]").val(fwpm);
+				$("select[name=repeat]").val(repeat);
 			}
 		}
 
@@ -68,7 +73,8 @@ class Index {
 			+ "/" + $("select[name=count]").val()
 			+ "/" + $("select[name=pitch]").val()
 			+ "/" + $("select[name=wpm]").val()
-			+ "/" + $("select[name=fwpm]").val();
+			+ "/" + $("select[name=fwpm]").val()
+			+ "/" + $("select[name=repeat]").val();
 			return false;
 		});
 
@@ -88,6 +94,7 @@ class Index {
 				Cookies.set('pitch', $("select[name=pitch]").val() , { expires: 30, path: '' });
 				Cookies.set('wpm', $("select[name=wpm]").val() , { expires: 30, path: '' });
 				Cookies.set('fwpm', $("select[name=fwpm]").val() , { expires: 30, path: '' });
+				Cookies.set('repeat', $("select[name=repeat]").val() , { expires: 30, path: '' });
 
 				// Blink save button green
 				Blink.blink("#save",'clicked_green');
@@ -112,7 +119,8 @@ class Index {
 		}.bind(this));
 	}
 	update_bg() {
-		let id_suffix = "_" + [$("select[name=count]").val(),$("select[name=wpm]").val(),$("select[name=fwpm]").val()].join("_");
+		let id_suffix = "_" + [$("select[name=count]").val(),$("select[name=wpm]").val(),
+                                       $("select[name=fwpm]").val(),$("select[name=repeat]").val()].join("_");
 		$('a.game').each(function() {
 			let id = $(this).attr('id') + id_suffix;
 			let best = Cookies.getJSON(id);

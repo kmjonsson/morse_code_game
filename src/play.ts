@@ -21,6 +21,7 @@ class Play {
 	private pitch: number;
 	private wpm: number;
 	private fwpm: number;
+	private repeat: number;
 
 	private play_timer:any;
 	private set_time:boolean = true;
@@ -57,6 +58,8 @@ class Play {
 					this.pitch = parseInt(cfg[2]);
 					this.wpm   = parseInt(cfg[3]);
 					this.fwpm  = parseInt(cfg[4]);
+					this.repeat= parseInt(cfg[5]);
+					this.repeat_time = this.repeat * 1000;
 				}
 			}
 		}
@@ -141,7 +144,7 @@ class Play {
 		});
 	}
 	gamestr() {
-		return [this.game.id,this.count,this.wpm,this.fwpm].join("_");
+		return [this.game.id,this.count,this.wpm,this.fwpm,this.repeat].join("_");
 	}
 	// Update html
 	update_html() {
@@ -154,6 +157,11 @@ class Play {
 		$("span.pgame").html(this.pgame.name);
 		$("span.wpm").html(""+this.wpm);
 		$("span.fwpm").html(""+this.fwpm);
+		if(this.repeat == 0) {
+			$("span.repeat").html("off");
+		} else {
+			$("span.repeat").html(""+this.repeat);
+		}
 		$("span.count").html(""+this.count);
 		$("span.volume").html("" + this.volume);
 
@@ -172,10 +180,12 @@ class Play {
 			this.game.set_start_time(d.getTime() + t*1000);
 			this.set_time = false;
 		}
-		// Start repeat in repeate_time ms after laste pip
-		this.play_timer = setTimeout(function() {
-			this.play();
-		}.bind(this), this.repeat_time + t*1000);
+		// Start repeat in repeat_time ms after laste pip
+		if(this.repeat_time > 0) {
+			this.play_timer = setTimeout(function() {
+				this.play();
+			}.bind(this), this.repeat_time + t*1000);
+		}
 	}
 	start() {
 		this.game.reset();
