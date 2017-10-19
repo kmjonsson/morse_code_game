@@ -160,6 +160,25 @@ export class Abbreviation extends MorseGame {
 	}
 }
 
+export class Words extends MorseGame {
+	private qc:string[] = [ 'A', 'ABOUT', 'ALL', 'ALSO', 'AND', 'AS', 'AT', 'BE', 'BECAUSE',
+		'BUT', 'BY', 'CAN', 'COME', 'COULD', 'DAY', 'DO', 'EVEN', 'FIND', 'FIRST', 'FOR',
+		'FROM', 'GET', 'GIVE', 'GO', 'HAVE', 'HE', 'HER', 'HERE', 'HIM', 'HIS', 'HOW', 'I',
+		'IF', 'IN', 'INTO', 'IT', 'ITS', 'JUST', 'KNOW', 'LIKE', 'LOOK', 'MAKE', 'MAN', 'MANY',
+		'ME', 'MORE', 'MY', 'NEW', 'NO', 'NOT', 'NOW', 'OF', 'ON', 'ONE', 'ONLY', 'OR', 'OTHER',
+		'OUR', 'OUT', 'PEOPLE', 'SAY', 'SEE', 'SHE', 'SO', 'SOME', 'TAKE', 'TELL', 'THAN',
+		'THAT', 'THE', 'THEIR', 'THEM', 'THEN', 'THERE', 'THESE', 'THEY', 'THING', 'THINK',
+		'THIS', 'THOSE', 'TIME', 'TO', 'TWO', 'UP', 'USE', 'VERY', 'WANT', 'WAY', 'WE',
+		'WELL', 'WHAT', 'WHEN', 'WHICH', 'WHO', 'WILL', 'WITH', 'WOULD', 'YEAR', 'YOU', 'YOUR' ];
+	next() {
+		if(this.done()) {
+			return;
+		}
+		super.next();
+		let n = Math.floor(Math.random() * this.qc.length);
+		this._current = this.qc[n];
+	}
+}
 
 export class Letters extends BasicGame {
         constructor(id: string, name: string, letters:number) {
@@ -217,6 +236,24 @@ export class Sq extends BasicGame {
 			}
 		}
 	}
+}
+
+export class Specials extends BasicGame {
+	private lesson:number;
+        constructor(id: string, name: string) {
+		super(id,name,1);
+		this.chars = "=+/?,-~@";
+		this.init();
+        }
+}
+
+export class Numbers extends BasicGame {
+	private lesson:number;
+        constructor(id: string, name: string) {
+		super(id,name,1);
+		this.chars = "0123456789";
+		this.init();
+        }
 }
 
 // <br/>
@@ -339,6 +376,9 @@ export class Games {
 		new Game('Other','Learn your',[
 				new QCode('qcode','QCodes'),
 				new Abbreviation('abbreviation','Abbreviation'),
+				new Words('words','100 words'),
+				new Specials('specials','Specials'),
+				new Numbers('numbers','Numbers'),
 				br,
 				new Calls('call1','Calls, 1 in suffix',1),
 				new Calls('call2','Calls, 2 in suffix',2),
