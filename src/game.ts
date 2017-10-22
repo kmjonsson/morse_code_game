@@ -242,7 +242,7 @@ export class Specials extends BasicGame {
 	private lesson:number;
         constructor(id: string, name: string) {
 		super(id,name,1);
-		this.chars = "=+/?,-~@";
+		this.chars = "=+/?,.-~@";
 		this.init();
         }
 }
