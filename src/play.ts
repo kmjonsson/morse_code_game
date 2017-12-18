@@ -134,6 +134,12 @@ class Play {
 		});
 		// Check for action on the startbutton
 		$("#startButton").click(function() {
+			var vid = document.body; // getElementById('wrapper');
+			if (vid.requestFullscreen){
+			    vid.requestFullscreen();
+			}else if (vid.webkitRequestFullscreen){
+			    vid.webkitRequestFullscreen();
+			}
 			play.dialogs.close();
 			play.start();
 		});
