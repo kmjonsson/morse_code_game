@@ -179,6 +179,15 @@ export class Words extends MorseGame {
 	}
 }
 
+
+export class SwLetters extends BasicGame {
+    constructor(id: string, name: string) {
+		super(id,name);
+		this.chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ";
+		this.init();
+    }
+}
+
 export class Letters extends BasicGame {
     constructor(id: string, name: string) {
 		super(id,name);
