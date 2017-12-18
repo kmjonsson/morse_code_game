@@ -21,6 +21,7 @@
   },
   "scripts": {
     "dev": "PROD_ENV=0 webpack -w",
+    "build": "PROD_ENV=0 webpack",
     "prod": "PROD_ENV=1 webpack"
   }
 }
