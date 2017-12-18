@@ -4,7 +4,8 @@ var PROD = JSON.parse(process.env.PROD_ENV || '0');
 
 module.exports = {
   entry: { 'play' : './src/play.ts', 
-           'index': './src/index.ts' },
+           'index': './src/index.ts',
+           'qbf': './src/qbf.ts' },
   output: {
     library: 'MorseGame',
     filename: 'dist/[name].js'
