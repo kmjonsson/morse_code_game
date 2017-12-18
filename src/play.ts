@@ -18,6 +18,7 @@ class Play {
 	private game: MorseGame;
 	private pgame: Game;
 	private count: number;
+	private gcount: number;
 	private pitch: number;
 	private wpm: number;
 	private fwpm: number;
@@ -49,9 +50,6 @@ class Play {
 		for (let i = 0; i < game.games.length; i++) {
 			for (let j = 0; j < game.games[i].games.length; j++) {
 				if(game.games[i].games[j].id == cfg[0]) {
-					if(cfg[1] !== undefined) {
-						game.games[i].games[j].set_count(parseInt(cfg[1]));
-					}
 					this.game = game.games[i].games[j];
 					this.pgame = game.games[i];
 					this.count = parseInt(cfg[1]);
@@ -60,6 +58,10 @@ class Play {
 					this.fwpm  = parseInt(cfg[4]);
 					this.repeat= parseInt(cfg[5]);
 					this.repeat_time = this.repeat * 1000;
+					this.gcount= parseInt(cfg[6]);
+
+					game.games[i].games[j].set_count(this.count);
+					game.games[i].games[j].set_gcount(this.gcount);
 				}
 			}
 		}
@@ -150,7 +152,7 @@ class Play {
 		});
 	}
 	gamestr() {
-		return [this.game.id,this.count,this.wpm,this.fwpm,this.repeat].join("_");
+		return [this.game.id,this.count,this.wpm,this.fwpm,this.repeat,this.gcount].join("_");
 	}
 	// Update html
 	update_html() {

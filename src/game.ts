@@ -67,10 +67,9 @@ export class BasicGame extends MorseGame {
 	private letters:number;
 	protected chars:string;
 	protected dist:Distribution = new Distribution();
-        constructor(id: string, name: string, letters:number) {
+    constructor(id: string, name: string) {
 		super(id,name);
-		this.letters = letters;
-        }
+    }
 	reset() {
 		super.reset();
 	}
@@ -80,7 +79,7 @@ export class BasicGame extends MorseGame {
 		}
 		super.next();
 		this._current = "";
-		for(let i=0;i<this.letters;i++) {
+		for(let i=0;i<this.gcount();i++) {
 			this._current += this.dist.get();
 		}
 	}
@@ -114,12 +113,12 @@ export class Calls extends BasicGame {
 				'LY', 'G','M', 'CT', 'TA', 'F', 'UA','RA', 'ZL', '5B', 'VE' ];
 	protected dist:Distribution = new Distribution();
 	extra:number = 1;
-        constructor(id: string, name: string, extra:number) {
-		super(id,name,extra);
+    constructor(id: string, name: string, extra:number) {
+		super(id,name);
 		this.extra = extra;
 		this.chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		this.init();
-        }
+    }
 	next() {
 		if(this.done()) {
 			return;
@@ -181,30 +180,30 @@ export class Words extends MorseGame {
 }
 
 export class Letters extends BasicGame {
-        constructor(id: string, name: string, letters:number) {
-		super(id,name,letters);
+    constructor(id: string, name: string) {
+		super(id,name);
 		this.chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		this.init();
-        }
+    }
 }
 
 export class AllChars extends BasicGame {
-        constructor(id: string, name: string, letters:number) {
-		super(id,name,letters);
-		this.chars = "KMURESNAPTLWI.JZ=FOY,VG5/Q92H38B?47C1D60X";
+    constructor(id: string, name: string) {
+		super(id,name);
+		this.chars = "KMURESNAPTLWI.JZ=FOY,VG5/Q92H38B?47C1D60X#+";
 		this.init();
-        }
+    }
 }
 
 export class Koch extends BasicGame {
 	private lesson:number;
         constructor(id: string, name: string, lesson:number) {
-		super(id,name,1);
+		super(id,name);
 		this.lesson = lesson;
 		let s:string = "KMURESNAPTLWI.JZ=FOY,VG5/Q92H38B?47C1D60X";
 		this.chars = s.substring(0,lesson+1);
 		this.init();
-        }
+    }
 	init() {
 		let l:string[] = this.chars.split("");
 		for(let i=0;i<l.length;i++) {
@@ -220,12 +219,12 @@ export class Koch extends BasicGame {
 export class Sq extends BasicGame {
 	private lesson:number;
         constructor(id: string, name: string, lesson:number) {
-		super(id,name,1);
+		super(id,name);
 		this.lesson = lesson;
 		let s:string = "=+NLOEIXVT/?AZHÖ<,RDFY-XÄBPSUQWKÅM7495XGJ813620~@";
 		this.chars = s.substring(0,lesson+1);
 		this.init();
-        }
+    }
 	init() {
 		let l:string[] = this.chars.split("");
 		for(let i=0;i<l.length;i++) {
@@ -250,7 +249,7 @@ export class Specials extends BasicGame {
 export class Numbers extends BasicGame {
 	private lesson:number;
         constructor(id: string, name: string) {
-		super(id,name,1);
+		super(id,name);
 		this.chars = "0123456789";
 		this.init();
         }
@@ -359,19 +358,12 @@ export class Games {
 				new Sq('sq47','~',47),
 				new Sq('sq48','@',48),
 			]),
-		new Game('All Letters','Number of letters in a row',[
-				new Letters('letters','1',1),
-				new Letters('twoLetters','2',2),
-				new Letters('threeLetters','3',3),
-				new Letters('fourLetters','4',4),
-				new Letters('fiveLetters','5',5),
+		new Game('All Letters','A-Z',[
+				new Letters('letters','A-Z'),
+				new SwLetters('swletters','A-Z ÅÄÖ'),
 			]),
-		new Game('All Chars','Number in a row',[
-				new AllChars('chars','1',1),
-				new AllChars('twoChars','2',2),
-				new AllChars('threeChars','3',3),
-				new AllChars('fourChars','4',4),
-				new AllChars('fiveChars','5',5),
+		new Game('All Chars','A-Z 0-9 =/+.,-#@',[
+				new AllChars('chars','chars'),
 			]),
 		new Game('Other','Learn your',[
 				new QCode('qcode','QCodes'),

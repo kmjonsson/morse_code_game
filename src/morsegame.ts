@@ -8,8 +8,12 @@ export abstract class MorseGame {
 	protected _at: number = 0;
 	protected _count: number = 10;
 	protected _charCount: number = 0;
+	protected _gcount: number = 1;
 	constructor(public id: string, public name: string) {
 		this.reset();
+	}
+	set_gcount(gcount:number) {
+		this._gcount = gcount;
 	}
 	set_count(count:number) {
 		this._count = count;
@@ -74,6 +78,9 @@ export abstract class MorseGame {
         }
 	count() : number {
 		return this._count;
+	}
+	gcount() : number {
+		return this._gcount;
 	}
 	current() : string {
 		return this._current;

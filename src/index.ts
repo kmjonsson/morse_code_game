@@ -53,11 +53,16 @@ class Index {
 				if(repeat === undefined) {
 					repeat = "2";
 				}
+				let gcount:string = Cookies.get('gcount');
+				if(gcount === undefined) {
+					count = "1";
+				}
 				$("select[name=count]").val(count);
 				$("select[name=pitch]").val(pitch);
 				$("select[name=wpm]").val(wpm);
 				$("select[name=fwpm]").val(fwpm);
 				$("select[name=repeat]").val(repeat);
+				$("select[name=gcount]").val(gcount);
 			}
 		}
 
@@ -74,7 +79,8 @@ class Index {
 			+ "/" + $("select[name=pitch]").val()
 			+ "/" + $("select[name=wpm]").val()
 			+ "/" + $("select[name=fwpm]").val()
-			+ "/" + $("select[name=repeat]").val();
+			+ "/" + $("select[name=repeat]").val()
+			+ "/" + $("select[name=gcount]").val();
 			return false;
 		});
 
@@ -95,6 +101,7 @@ class Index {
 				Cookies.set('wpm', $("select[name=wpm]").val() , { expires: 30, path: '' });
 				Cookies.set('fwpm', $("select[name=fwpm]").val() , { expires: 30, path: '' });
 				Cookies.set('repeat', $("select[name=repeat]").val() , { expires: 30, path: '' });
+				Cookies.set('gcount', $("select[name=gcount]").val() , { expires: 30, path: '' });
 
 				// Blink save button green
 				Blink.blink("#save",'clicked_green');
@@ -120,7 +127,7 @@ class Index {
 	}
 	update_bg() {
 		let id_suffix = "_" + [$("select[name=count]").val(),$("select[name=wpm]").val(),
-                                       $("select[name=fwpm]").val(),$("select[name=repeat]").val()].join("_");
+                                       $("select[name=fwpm]").val(),$("select[name=repeat]").val(),$("select[name=gcount]").val()].join("_");
 		$('a.game').each(function() {
 			let id = $(this).attr('id') + id_suffix;
 			let best = Cookies.getJSON(id);
