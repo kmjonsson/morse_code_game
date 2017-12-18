@@ -44,6 +44,7 @@ export abstract class MorseGame {
 				this.add_score(((d-this._start_time) / 1000.0));
 			} else {
 				this.add_score(0);
+				return false;
 			}
 		}
 		let pos = this._input.length - 1;

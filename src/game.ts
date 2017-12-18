@@ -216,10 +216,10 @@ export class Koch extends BasicGame {
 	init() {
 		let l:string[] = this.chars.split("");
 		for(let i=0;i<l.length;i++) {
-			if(i < 2 || i < l.length-2) {
+			if(i < 2) {
 				this.dist.add(l[i],1);
 			} else {
-				this.dist.add(l[i],10);
+				this.dist.add(l[i],1+(i*9.0/l.length));
 			}
 		}
 	}
@@ -240,7 +240,7 @@ export class Sq extends BasicGame {
 			if(i < 2 || i < l.length-2) {
 				this.dist.add(l[i],1);
 			} else {
-				this.dist.add(l[i],10);
+				this.dist.add(l[i],1+(i*9.0/l.length));
 			}
 		}
 	}
