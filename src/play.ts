@@ -121,7 +121,7 @@ class Play {
 			}
 
 			// Debug
-			if(ev.key == '#') {
+			if(ev.key == '*') {
 				play.showInfo();
 				return;
 			}
