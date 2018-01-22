@@ -79,7 +79,11 @@ export class BasicGame extends MorseGame {
 		}
 		super.next();
 		this._current = "";
-		for(let i=0;i<this.gcount();i++) {
+		let gc = this.gcount();
+		if(gc < 0) {
+			gc = Math.floor(Math.random() * -gc) + 1;
+		}
+		for(let i=0;i<gc;i++) {
 			this._current += this.dist.get();
 		}
 	}
