@@ -83,6 +83,9 @@ export abstract class MorseGame {
 	gcount() : number {
 		return this._gcount;
 	}
+	input() : string {
+		return this._input;
+	}
 	current() : string {
 		return this._current;
 	}

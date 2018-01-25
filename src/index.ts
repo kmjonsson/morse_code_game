@@ -11,7 +11,8 @@ class Index {
 	game: MorseGame;
 	dialogs: ModalDialogs=new ModalDialogs([
 			new ModalDialog('#aboutDialog'),
-			new ModalDialog('#cookieDialog')
+			new ModalDialog('#cookieDialog'),
+			new ModalDialog('#setupDialog')
 		]);
 	constructor() {
 		{ // Setup games
@@ -37,6 +38,10 @@ class Index {
 				if(count === undefined) {
 					count = "10";
 				}
+				let randompitch:string = Cookies.get('randompitch');
+				if(randompitch === undefined) {
+					randompitch = "false";
+				}
 				let pitch:string = Cookies.get('pitch');
 				if(pitch === undefined) {
 					pitch = "550";
@@ -55,14 +60,25 @@ class Index {
 				}
 				let gcount:string = Cookies.get('gcount');
 				if(gcount === undefined) {
-					count = "1";
+					gcount = "1";
+				}
+				let randomgcount:string = Cookies.get('randomgcount');
+				if(randomgcount === undefined) {
+					randomgcount = "false";
+				}
+				let incdec:string = Cookies.get('incdec');
+				if(incdec === undefined) {
+					incdec = "false";
 				}
 				$("select[name=count]").val(count);
+				$( "#randomPitch" ).prop( "checked", randompitch == "true" );
 				$("select[name=pitch]").val(pitch);
 				$("select[name=wpm]").val(wpm);
 				$("select[name=fwpm]").val(fwpm);
 				$("select[name=repeat]").val(repeat);
+				$( "#randomGCount" ).prop( "checked", randomgcount == "true" );
 				$("select[name=gcount]").val(gcount);
+				$( "#incdec" ).prop( "checked", incdec == "true" );
 			}
 		}
 
@@ -74,13 +90,17 @@ class Index {
 
 		// add game parameters to game page.
 		$("body").on('click','a.game', function() {
+			let p:string = "" + $("select[name=pitch]").val();
+			let gc:string = "" + $("select[name=gcount]").val();
 			document.location.href = $(this).attr("href")
 			+ "/" + $("select[name=count]").val()
-			+ "/" + $("select[name=pitch]").val()
+			+ "/" + (parseInt(p) * ( $('#randomPitch').prop('checked') == true ? -1 : 1 )).toLocaleString()
 			+ "/" + $("select[name=wpm]").val()
 			+ "/" + $("select[name=fwpm]").val()
 			+ "/" + $("select[name=repeat]").val()
-			+ "/" + $("select[name=gcount]").val();
+			+ "/" + (parseInt(gc) * ( $('#randomGCount').prop('checked') == true ? -1 : 1 ))
+			+ "/" + ( $('#incdec').prop('checked') == true ? 1 : 0 )
+			;
 			return false;
 		});
 
@@ -97,14 +117,20 @@ class Index {
 				// Renew
 				Cookies.set('accept-cookies',"yes" , { expires: 30, path: '' });
 				Cookies.set('count', $("select[name=count]").val() , { expires: 30, path: '' });
+				Cookies.set('randompitch', $("#randomPitch").prop('checked') , { expires: 30, path: '' });
 				Cookies.set('pitch', $("select[name=pitch]").val() , { expires: 30, path: '' });
 				Cookies.set('wpm', $("select[name=wpm]").val() , { expires: 30, path: '' });
 				Cookies.set('fwpm', $("select[name=fwpm]").val() , { expires: 30, path: '' });
 				Cookies.set('repeat', $("select[name=repeat]").val() , { expires: 30, path: '' });
 				Cookies.set('gcount', $("select[name=gcount]").val() , { expires: 30, path: '' });
+				Cookies.set('randomgcount', $("#randomGCount").prop('checked') , { expires: 30, path: '' });
+				Cookies.set('incdec', $("#incdec").prop('checked') , { expires: 30, path: '' });
 
 				// Blink save button green
 				Blink.blink("#save",'clicked_green');
+				setTimeout(function() { 
+					this.dialogs.close();
+				}.bind(this),500);	
 			} else {
 				this.dialogs.show("#cookieDialog");
 			}
@@ -120,6 +146,12 @@ class Index {
 		}.bind(this));
 
 		// Open Dialog
+		$("button.dialog").click(function(event) {
+			event.preventDefault();
+			this.dialogs.show($(event.target).attr('target'));
+		}.bind(this));
+
+		// Open Dialog
 		$("a.dialog").click(function(event) {
 			event.preventDefault();
 			this.dialogs.show($(event.target).attr('href'));
@@ -127,7 +159,9 @@ class Index {
 	}
 	update_bg() {
 		let id_suffix = "_" + [$("select[name=count]").val(),$("select[name=wpm]").val(),
-                                       $("select[name=fwpm]").val(),$("select[name=repeat]").val(),$("select[name=gcount]").val()].join("_");
+									   $("select[name=fwpm]").val(),$("select[name=repeat]").val(),
+									   $("select[name=gcount]").val(),
+									   ( $('#incdec').prop('checked') == true ? 1 : 0 )].join("_");
 		$('a.game').each(function() {
 			let id = $(this).attr('id') + id_suffix;
 			let best = Cookies.getJSON(id);

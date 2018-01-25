@@ -21,8 +21,11 @@ class Play {
 	private gcount: number;
 	private pitch: number;
 	private wpm: number;
+	private wpm_diff: number = 0;
 	private fwpm: number;
+	private fwpm_diff: number = 0;
 	private repeat: number;
+	private incdec:number;
 
 	private play_timer:any;
 	private set_time:boolean = true;
@@ -59,6 +62,7 @@ class Play {
 					this.repeat= parseInt(cfg[5]);
 					this.repeat_time = this.repeat * 1000;
 					this.gcount= parseInt(cfg[6]);
+					this.incdec= parseInt(cfg[7]);
 
 					game.games[i].games[j].set_count(this.count);
 					game.games[i].games[j].set_gcount(this.gcount);
@@ -71,7 +75,7 @@ class Play {
 		{ // Setup Morse player
 			//window.AudioContext = window.AudioContext || window.webkitAudioContext;
 			let ctx = new AudioContext();
-			this.morse = new MorsePlayer(ctx,this.pitch,this.wpm,this.fwpm);
+			this.morse = new MorsePlayer(ctx,Math.abs(this.pitch),this.wpm,this.fwpm);
 			this.load_volume();
 		}
 		{ // Setup keyboard
@@ -152,7 +156,7 @@ class Play {
 		});
 	}
 	gamestr() {
-		return [this.game.id,this.count,this.wpm,this.fwpm,this.repeat,this.gcount].join("_");
+		return [this.game.id,this.count,this.wpm,this.fwpm,this.repeat,this.gcount,this.incdec].join("_");
 	}
 	// Update html
 	update_html() {
@@ -165,6 +169,9 @@ class Play {
 		$("span.pgame").html(this.pgame.name);
 		$("span.wpm").html(""+this.wpm);
 		$("span.fwpm").html(""+this.fwpm);
+		$("span.gcount").html(""+this.gcount);
+		$("span.ewpm").html(""+(this.wpm+this.wpm_diff));
+		$("span.efwpm").html(""+(this.fwpm+this.fwpm_diff));
 		if(this.repeat == 0) {
 			$("span.repeat").html("off");
 		} else {
@@ -178,6 +185,12 @@ class Play {
 			$("span.items_left").html("" + left + " left, ") ;
 		} else {
 			$("span.items_left").html("");
+		}
+
+		if(this.incdec) {
+			$("span.show_wpm").show();
+		} else {
+			$("span.show_wpm").hide();
 		}
 		
 	}
@@ -240,9 +253,26 @@ class Play {
 			Blink.blink('.keyboard[key="' + this.game.get_current_char() + '"]','clicked_green',500);
 		}
 		if(this.game.goto_next()) {
+			let inc:boolean = this.game.input() == this.game.current();
 			this.pause();
 			this.game.next();
 			if(!this.game.done()) {
+				if(this.pitch < 0) {
+					this.morse.set_freq(Math.floor(Math.random() * 100) - this.pitch);
+				}
+				if(true) {
+					if(inc) {
+						if(this.wpm+this.wpm_diff == this.fwpm+this.fwpm_diff) {
+							this.wpm_diff++;
+						}
+						this.fwpm_diff++;
+					} else {
+						if(--this.fwpm_diff < 0) { this.fwpm_diff=0; }
+						if(--this.wpm_diff < 0) { this.wpm_diff=0; }
+					}
+				}
+				this.morse.wpm(this.wpm+this.wpm_diff);
+				this.morse.fransworth(this.fwpm+this.fwpm_diff);
 				this.set_time = true;
 				this.resume(true);
 			} else {
