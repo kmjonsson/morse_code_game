@@ -94,7 +94,7 @@ class Index {
 			let gc:string = "" + $("select[name=gcount]").val();
 			document.location.href = $(this).attr("href")
 			+ "/" + $("select[name=count]").val()
-			+ "/" + (parseInt(p) * ( $('#randomPitch').prop('checked') == true ? -1 : 1 )).toLocaleString()
+			+ "/" + (parseInt(p) * ( $('#randomPitch').prop('checked') == true ? -1 : 1 ))
 			+ "/" + $("select[name=wpm]").val()
 			+ "/" + $("select[name=fwpm]").val()
 			+ "/" + $("select[name=repeat]").val()
