@@ -260,7 +260,7 @@ class Play {
 				if(this.pitch < 0) {
 					this.morse.set_freq(Math.floor(Math.random() * 100) - this.pitch);
 				}
-				if(true) {
+				if(this.incdec) {
 					if(inc) {
 						if(this.wpm+this.wpm_diff == this.fwpm+this.fwpm_diff) {
 							this.wpm_diff++;
